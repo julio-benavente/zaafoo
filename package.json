@@ -11,9 +11,15 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.18",
+    "@mui/material": "^5.14.18",
+    "clsx": "^2.0.0",
     "next": "13.5.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.5.3",
