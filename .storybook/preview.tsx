@@ -15,14 +15,14 @@ const customViewports = {
     name: "Small",
     styles: {
       width: "475px",
-      height: "1024px",
+      height: "720px",
     },
   },
   medium: {
     name: "Medium",
     styles: {
       width: "768px",
-      height: "1024px",
+      height: "900px",
     },
   },
   large: {
