@@ -9,9 +9,9 @@ import {
 import React from "react";
 // import { useFormContext, RegisterOptions } from "react-hook-form";
 
-interface TextFieldProps
+export interface TextFieldProps
   extends Omit<MuiTextFieldProps<"outlined">, "variant"> {
-  name: string;
+  // name?: string;
   //   registerOptions?: RegisterOptions;
   variant?: TextFieldVariants;
 }
@@ -38,13 +38,14 @@ const TextField = ({
       InputProps={{
         classes: {
           root: cn(
-            "group bg-transparent rounded-sm text-sm font-semibold px-5 py-5 h-16"
+            "group bg-transparent rounded-sm text-sm font-semibold px-5 py-5 h-16 bg-white"
           ),
           input: cn("box-border p-0"),
           adornedEnd: cn("pr-0"),
           adornedStart: cn("pl-0"),
           notchedOutline: cn(
-            "border border-black border-solid group-focus-within:border-purple-500"
+            "border border-black border-solid",
+            "group-focus-within:border-purple-500 group-focus-within:border-2"
             // "group-focus-within:ring-input"
             // isError &&
             //   "border-red-500 focus:border-red-500 group-focus-within:ring-4 group-focus-within:ring-red-500/50"

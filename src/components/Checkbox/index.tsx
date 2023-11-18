@@ -42,7 +42,12 @@ const Checkbox = ({
     <FormControlLabel
       className={cn("group relative m-0 w-fit", formControlClassName)}
       label={
-        <Typography className={cn("relative pl-7 text-sm font-bold")}>
+        <Typography
+          className={cn(
+            "relative pl-7 text-sm font-bold",
+            "group-focus-within:underline group-focus-within:underline-offset-2"
+          )}
+        >
           {label}
         </Typography>
       }

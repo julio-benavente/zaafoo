@@ -5,3 +5,6 @@ export { default as InputLabel } from "./InputLabel";
 export { default as Typography } from "./Typography";
 export { default as Link } from "./Link";
 export { default as Checkbox } from "./Checkbox";
+export { default as PasswordInput } from "./PasswordInput";
+export { default as EmailInput } from "./EmailInput";
+export { default as InputContainer } from "./InputContainer";

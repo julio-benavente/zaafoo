@@ -17,9 +17,22 @@ const Typography = ({
   variant = "body1",
   ...props
 }: TypographyProps) => {
+  const component = () => {
+    const isParragraph = [
+      "body1",
+      "body2",
+      "subtitle1",
+      "subtitle2",
+      "caption",
+    ].includes(variant);
+
+    if (isParragraph) return "p";
+    return null;
+  };
   return (
     <MuiTypography
       variant={variant}
+      component={component()}
       classes={{
         root: cn("font-cabinet"),
         h1: cn("text-4xl font-black lg:text-5xl text-text-headline"),
