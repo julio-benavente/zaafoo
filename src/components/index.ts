@@ -8,3 +8,5 @@ export { default as Checkbox } from "./Checkbox";
 export { default as PasswordInput } from "./PasswordInput";
 export { default as EmailInput } from "./EmailInput";
 export { default as InputContainer } from "./InputContainer";
+export { default as Tabs } from "./Tabs";
+export { default as Tab } from "./Tab";
