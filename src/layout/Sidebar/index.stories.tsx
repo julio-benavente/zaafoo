@@ -19,17 +19,6 @@ Default.decorators = [
   (Story) => {
     return (
       <AppLayout>
-        <Story />
-      </AppLayout>
-    );
-  },
-];
-
-export const InAppLayout: Story = {};
-InAppLayout.decorators = [
-  (Story) => {
-    return (
-      <AppLayout>
         <></>
       </AppLayout>
     );

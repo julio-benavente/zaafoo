@@ -7,14 +7,14 @@ const customViewports = {
   extraSmall: {
     name: "Extra small",
     styles: {
-      width: "360px",
+      width: "320px",
       height: "720px",
     },
   },
   small: {
     name: "Small",
     styles: {
-      width: "475px",
+      width: "640px",
       height: "720px",
     },
   },
