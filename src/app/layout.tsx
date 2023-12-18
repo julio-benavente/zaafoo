@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { cabinet } from "@/helpers/fonts";
+import ThemeProvider from "@/helpers/ThemeProvider";
 import "./globals.css";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${cabinet.variable}`}>{children}</body>
+      <Provider store={store}>
+        <ThemeProvider>
+          <body className={`${cabinet.variable}`}>{children}</body>
+        </ThemeProvider>
+      </Provider>
     </html>
   );
 }

@@ -10,7 +10,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       )}
     >
       <main
-        className={cn("max-h-[calc(100vh-4rem)] overflow-y-auto", "lg:order-2")}
+        className={cn(
+          "max-h-[calc(100vh-4rem)] overflow-y-auto",
+          "lg:order-2 lg:max-h-max"
+        )}
       >
         {children}
       </main>

@@ -6,9 +6,9 @@ import React from "react";
 const meta: Meta<typeof Tabs> = {
   title: "Components/Tabs",
   component: Tabs,
-  parameters: {
-    layout: "fullscreen",
-  },
+  // parameters: {
+  // layout: "fullscreen",
+  // },
 };
 
 export default meta;

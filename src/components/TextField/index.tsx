@@ -19,6 +19,7 @@ export interface TextFieldProps
 const TextField = ({
   variant = "outlined",
   className,
+  classes,
   name,
   //   registerOptions,
   InputProps,
@@ -40,7 +41,7 @@ const TextField = ({
           root: cn(
             "group bg-transparent rounded-sm text-sm font-semibold px-5 py-5 h-16 bg-white"
           ),
-          input: cn("box-border p-0"),
+          input: cn("box-border p-0 font-cabinet font-bold"),
           adornedEnd: cn("pr-0"),
           adornedStart: cn("pl-0"),
           notchedOutline: cn(

@@ -17,7 +17,7 @@ import Modal from "@mui/material/Modal";
 import cn from "@/helpers/cn";
 
 const Main = () => {
-  const [tabValue, setTabValue] = React.useState("settings");
+  const [tabValue, setTabValue] = React.useState("menus");
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
@@ -157,10 +157,10 @@ const MenuSection = () => {
 };
 
 const menuList = [
-  //   {
-  //     name: "Menu one",
-  //     path: "/menu-one",
-  //   },
+  {
+    name: "Menu one",
+    path: "/menu-one",
+  },
   //   {
   //     name: "Menu two",
   //     path: "/menu-two",
