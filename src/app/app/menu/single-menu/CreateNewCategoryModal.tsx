@@ -14,6 +14,8 @@ import { useController, useForm } from "react-hook-form";
 import { v4 } from "uuid";
 import { createCategory } from "@/entities/menu/slice";
 import { useDispatch } from "react-redux";
+import succesfullSnackbar from "@/helpers/succesfulSnackbar";
+import errorSnackbar from "@/helpers/errorSnackbar";
 
 interface CreateNewCategoryModalProps {
   open: boolean;
@@ -87,36 +89,3 @@ const CreateNewCategoryModal = ({
 };
 
 export default CreateNewCategoryModal;
-
-const succesfullSnackbar = (label: ReactNode) => {
-  const id = v4();
-  enqueueSnackbar({
-    color: "success",
-    children: label,
-    id,
-    action: (
-      <RegularCloseButton
-        onClick={() => {
-          closeSnackbar(id);
-        }}
-      />
-    ),
-  });
-};
-
-const errorSnackbar = (label: string) => {
-  const id = v4();
-
-  enqueueSnackbar({
-    color: "error",
-    children: label,
-    id,
-    action: (
-      <RegularCloseButton
-        onClick={() => {
-          closeSnackbar(id);
-        }}
-      />
-    ),
-  });
-};

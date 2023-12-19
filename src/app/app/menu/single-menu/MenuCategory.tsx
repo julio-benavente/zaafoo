@@ -13,6 +13,7 @@ import UnfoldMoreOutlinedIcon from "@mui/icons-material/UnfoldMoreOutlined";
 import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 
 const MenuCategory = (props: MenuCategoryProps) => {
   const [showMenuItems, setShowMenuItems] = useState(false);
@@ -58,6 +59,9 @@ const MenuCategory = (props: MenuCategoryProps) => {
           anchorEl={anchorRef.current}
         >
           <MenuItem variant="option" onClick={closeMenu}>
+            <ControlPointOutlinedIcon className="text-lg mr-2" /> New Item
+          </MenuItem>
+          <MenuItem variant="option" onClick={closeMenu}>
             <EditOutlinedIcon className="text-lg mr-2" /> Edit
           </MenuItem>
           <MenuItem
@@ -73,9 +77,6 @@ const MenuCategory = (props: MenuCategoryProps) => {
         props.menuItems?.map((product, i) => {
           return <MenuItemComponent key={product.id} {...product} />;
         })}
-      {/* <div className="py-2 px-4 bg-white border border-black border-solid">
-          <Typography className="text-sm">Add new product</Typography>
-        </div> */}
     </div>
   );
 };

@@ -11,6 +11,8 @@ import { renderInputComp } from "@/components/SelectFreeSolo";
 import { useMenuOptionsApi, useMenuOptionsState } from "./context";
 import { closeSnackbar, enqueueSnackbar } from "notistack";
 import useFakeRequest from "@/helpers/fakeRequest";
+import succesfullSnackbar from "@/helpers/succesfulSnackbar";
+import errorSnackbar from "@/helpers/errorSnackbar";
 
 const AddVariantModal = () => {
   const onCreateVariant = async () => {
@@ -18,32 +20,11 @@ const AddVariantModal = () => {
     const snackbarId = Math.random();
 
     if (response === "success") {
-      enqueueSnackbar({
-        color: "success",
-        children: "The variant was created successfully",
-        id: snackbarId,
-        action: (
-          <RegularCloseButton
-            onClick={() => {
-              closeSnackbar(snackbarId);
-            }}
-          />
-        ),
-      });
+      succesfullSnackbar("The variant was created successfully");
     } else {
-      enqueueSnackbar({
-        color: "error",
-        children: "There was a problem. Try it again.",
-        id: snackbarId,
-        action: (
-          <RegularCloseButton
-            onClick={() => {
-              closeSnackbar(snackbarId);
-            }}
-          />
-        ),
-      });
+      errorSnackbar("There was a problem. Try it again.");
     }
+
     closeAddVariantModal();
   };
   const onCloseModal = () => {
