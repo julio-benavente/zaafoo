@@ -11,62 +11,38 @@ import useFakeRequest from "@/helpers/fakeRequest";
 import { RootState } from "@/store";
 import { closeSnackbar, enqueueSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
+import { RequestState } from "./types";
+
+export interface GeneralTabDataProps {
+  name?: string;
+  basePrice?: string;
+}
 
 interface GeneralTabProps {
-  closeModal: () => void;
+  cancelButtonAction: () => void;
+  actionButtonAction: () => void;
+  actionButtonLabel: string;
+  state?: RequestState;
+  data?: GeneralTabDataProps;
 }
 
 const GeneralTab = (props: GeneralTabProps) => {
-  const [fakeResponse, fakeRequest] = useFakeRequest({ success: 0.1 });
-
-  const basePrice = useSelector((state: RootState) => state.menu.basePrice);
-  const dispatch = useDispatch();
-
-  const updatePrices = async () => {
-    const response = await fakeRequest();
-    const snackbarId = Math.random();
-
-    if (response === "success") {
-      dispatch(updateMenu({ basePrice: "1" }));
-      enqueueSnackbar({
-        color: "success",
-        children: "Prices were updated successfully.",
-        id: snackbarId,
-        action: (
-          <RegularCloseButton
-            onClick={() => {
-              closeSnackbar(snackbarId);
-            }}
-          />
-        ),
-      });
-
-      props.closeModal();
-    } else {
-      enqueueSnackbar({
-        color: "error",
-        children: "Oops! There was a problem. Try it again.",
-        id: snackbarId,
-        action: (
-          <RegularCloseButton
-            onClick={() => {
-              closeSnackbar(snackbarId);
-            }}
-          />
-        ),
-      });
-    }
-  };
   return (
     <div>
       <div className="flex flex-col gap-4">
         <InputContainer>
           <InputLabel>Name</InputLabel>
-          <TextField placeholder="Item's name" />
+          <TextField
+            placeholder="Item's name"
+            defaultValue={props.data?.name}
+          />
         </InputContainer>
         <InputContainer>
           <InputLabel>Base Price</InputLabel>
-          <TextField placeholder="$ 0.00" />
+          <TextField
+            placeholder="$ 0.00"
+            defaultValue={props.data?.basePrice}
+          />
         </InputContainer>
       </div>
       <div
@@ -78,14 +54,15 @@ const GeneralTab = (props: GeneralTabProps) => {
         <Button
           variant="outlined"
           className="w-full order-2 sm:order-none sm:w-fit"
-          onClick={() => {
-            props.closeModal();
-          }}
+          onClick={props.cancelButtonAction}
         >
           Cancel
         </Button>
-        <Button onClick={updatePrices} className="w-full sm:w-fit">
-          {fakeResponse === "loading" ? "Updating ..." : "Update"}
+        <Button
+          onClick={() => props.actionButtonAction()}
+          className="w-full sm:w-fit"
+        >
+          {props.actionButtonLabel}
         </Button>
       </div>
     </div>

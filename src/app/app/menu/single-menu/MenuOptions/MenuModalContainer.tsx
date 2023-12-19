@@ -1,28 +1,24 @@
 import { Typography } from "@/components";
 import { Modal } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
-import GeneralTab from "./GeneralTab";
 import MenuOptionsProvider from "./context";
 import cn from "@/helpers/cn";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { MenuOptionsProps } from "./types";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
-export type MenuOptions = "menus" | "variants" | "settings";
-
-export interface MenuOptionsProps {
+export interface IProps {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  onClose?: () => void;
+  title: string;
+  children: ReactNode;
 }
 
-const MenuOptions = (props: MenuOptionsProps) => {
-  const closeModal = () => {
-    props.setOpen(false);
-  };
-
+const MenuModalContainer = (props: IProps) => {
   return (
     <Modal
       open={props.open}
       classes={{ backdrop: "bg-black/90" }}
-      onClose={closeModal}
+      onClose={props.onClose}
     >
       <MenuOptionsProvider>
         <div
@@ -34,20 +30,18 @@ const MenuOptions = (props: MenuOptionsProps) => {
           )}
         >
           <div className="py-3 px-5 border-b border-black grid grid-flow-col justify-between items-center gap-x-8 bg-pink-500">
-            <Typography className="font-bold">Create a menu item</Typography>
+            <Typography className="font-bold">{props.title}</Typography>
             <CloseOutlinedIcon
               className="cursor-pointer"
-              onClick={(e) => closeModal()}
+              onClick={props.onClose}
             />
           </div>
 
-          <div className="px-5 py-5">
-            <GeneralTab closeModal={closeModal} />
-          </div>
+          <div className="px-5 py-5">{props.children}</div>
         </div>
       </MenuOptionsProvider>
     </Modal>
   );
 };
 
-export default MenuOptions;
+export default MenuModalContainer;
