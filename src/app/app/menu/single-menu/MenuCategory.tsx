@@ -11,6 +11,8 @@ import MenuItemComponent from "./MenuItem";
 import cn from "@/helpers/cn";
 import UnfoldMoreOutlinedIcon from "@mui/icons-material/UnfoldMoreOutlined";
 import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 const MenuCategory = (props: MenuCategoryProps) => {
   const [showMenuItems, setShowMenuItems] = useState(false);
@@ -24,45 +26,46 @@ const MenuCategory = (props: MenuCategoryProps) => {
     <div className="mb-8">
       <div
         className={cn(
-          "py-4 px-4 bg-white border border-black border-solid border-b-0 grid grid-cols-[1fr_auto]",
+          "py-4 px-4 bg-white border border-black border-solid border-b-0 grid grid-cols-[auto_1fr_auto] gap-3 items-center",
           !showMenuItems && "border-b"
         )}
       >
-        <div className="w-full">
+        <IconButton onClick={toggleMenuItemsDisplay}>
+          {!showMenuItems && <UnfoldMoreOutlinedIcon />}
+          {showMenuItems && <UnfoldLessIcon />}
+        </IconButton>
+        <div className="w-full grid grid-flow-row sm:grid-flow-col sm:justify-start sm:items-center">
           <Typography className="font-bold text-base" component={"span"}>
             {props.name}
           </Typography>{" "}
-          <Typography variant="caption" component={"span"} className="pl-2">
+          <Typography
+            variant="caption"
+            component={"span"}
+            className="sm:pl-2 text-gray-600"
+          >
             {props.menuItems?.length}{" "}
             {props.menuItems?.length === 1 ? "item" : "items"}
           </Typography>
         </div>
-        <div className="flex gap-2">
-          <IconButton onClick={toggleMenuItemsDisplay}>
-            {!showMenuItems && <UnfoldMoreOutlinedIcon />}
-            {showMenuItems && <UnfoldLessIcon />}
-          </IconButton>
-          <OptionsButton
-            onClick={() => setMenuIsOpen(!menuIsOpen)}
-            ref={anchorRef}
-          />
-        </div>
+
+        <OptionsButton
+          onClick={() => setMenuIsOpen(!menuIsOpen)}
+          ref={anchorRef}
+        />
         <Menu
           open={menuIsOpen}
           onClose={() => setMenuIsOpen(false)}
           anchorEl={anchorRef.current}
         >
           <MenuItem variant="option" onClick={closeMenu}>
-            One
+            <EditOutlinedIcon className="text-lg mr-2" /> Edit
           </MenuItem>
-          <MenuItem variant="option" onClick={closeMenu}>
-            One
-          </MenuItem>
-          <MenuItem variant="option" onClick={closeMenu}>
-            One
-          </MenuItem>
-          <MenuItem variant="option" onClick={closeMenu}>
-            One
+          <MenuItem
+            variant="option"
+            onClick={closeMenu}
+            classes={{ root: "text-red-500 hover:bg-red-50" }}
+          >
+            <DeleteOutlineIcon className="text-lg mr-2" /> Delete
           </MenuItem>
         </Menu>
       </div>

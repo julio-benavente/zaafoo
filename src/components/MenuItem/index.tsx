@@ -24,11 +24,12 @@ const MenuItem = ({
         className
       )}
       classes={{
+        ...classes,
         root: cn([
           variant === "tab" && "max-h-none min-h-min text-sm",
           variant === "option" && "max-h-none min-h-min text-sm",
+          classes?.root,
         ]),
-        ...classes,
       }}
       {...props}
     />

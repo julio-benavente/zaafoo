@@ -10,7 +10,7 @@ const IconButton = forwardRef(
         size={size}
         classes={{
           root: cn(
-            "text-black border relative py-0 px-1 border rounded-sm p-0 hover:bg-black hover:text-white"
+            "text-black border relative py-0 px-1 border rounded-sm p-0 hover:bg-black hover:text-white h-fit"
           ),
           sizeSmall: "p-1 [&>svg]:text-lg",
           sizeMedium: "p-2 [&>svg]:text-lg",
