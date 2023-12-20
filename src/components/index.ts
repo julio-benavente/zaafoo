@@ -21,3 +21,4 @@ export { default as RegularCloseButton } from "./RegularCloseButton";
 export { default as FormControlLabelSwitch } from "./FormControlLabelSwitch";
 export { default as Switch } from "./Switch";
 export { default as IconButton } from "./IconButton";
+export { default as MoneyInput } from "./MoneyInput";

@@ -2,15 +2,10 @@ import {
   Button,
   InputContainer,
   InputLabel,
-  RegularCloseButton,
+  MoneyInput,
   TextField,
 } from "@/components";
-import { updateMenu } from "@/entities/menu/slice";
 import cn from "@/helpers/cn";
-import useFakeRequest from "@/helpers/fakeRequest";
-import { RootState } from "@/store";
-import { closeSnackbar, enqueueSnackbar } from "notistack";
-import { useDispatch, useSelector } from "react-redux";
 import { RequestState } from "./types";
 
 export interface GeneralTabDataProps {
@@ -39,7 +34,7 @@ const GeneralTab = (props: GeneralTabProps) => {
         </InputContainer>
         <InputContainer>
           <InputLabel>Base Price</InputLabel>
-          <TextField
+          <MoneyInput
             placeholder="$ 0.00"
             defaultValue={props.data?.basePrice}
           />
