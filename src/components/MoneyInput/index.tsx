@@ -1,22 +1,20 @@
 import {
   NumericFormat,
-  NumericFormatProps,
   NumberFormatBaseProps,
+  NumericFormatProps,
 } from "react-number-format";
 import { TextField } from "..";
 import { TextFieldProps } from "../TextField";
 
-interface IProps extends NumberFormatBaseProps {
+interface IProps {
   textFieldProps?: TextFieldProps;
 }
 
-const MoneyInput = (props: IProps) => {
+const MoneyInput = ({ ...props }: NumericFormatProps) => {
   return (
     <NumericFormat
-      customInput={(args) => {
-        // @ts-ignore
-        return <TextField {...args} {...props.textFieldProps} />;
-      }}
+      //@ts-ignore
+      customInput={TextField}
       prefix="$ "
       decimalSeparator="."
       thousandSeparator=","

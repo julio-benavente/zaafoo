@@ -7,11 +7,12 @@ import {
   TextFieldVariants,
 } from "@mui/material";
 import React from "react";
-import { NumericFormatProps } from "react-number-format";
 // import { useFormContext, RegisterOptions } from "react-hook-form";
 
 export interface TextFieldProps
   extends Omit<MuiTextFieldProps<"outlined">, "variant"> {
+  // name?: string;
+  //   registerOptions?: RegisterOptions;
   variant?: TextFieldVariants;
 }
 
@@ -24,6 +25,12 @@ const TextField = ({
   InputProps,
   ...props
 }: TextFieldProps) => {
+  //   const {
+  //     register,
+  //     formState: { errors },
+  //   } = useFormContext();
+
+  //   const isError = Boolean(errors[name]);
   return (
     <MuiTextField
       className={className}

@@ -5,6 +5,7 @@ export type MenuOptions = "menus" | "variants" | "settings";
 export interface MenuOptionsProps {
   open: boolean;
   setOpen?: Dispatch<SetStateAction<boolean>>;
+  variant: "create" | "update";
   closeModal?: () => void;
 }
 

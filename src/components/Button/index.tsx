@@ -1,6 +1,8 @@
 import React from "react";
-import MuiButton, { ButtonProps } from "@mui/material/Button";
+import MuiButton, { ButtonProps as MuiButtonProps } from "@mui/material/Button";
 import cn from "@/helpers/cn";
+
+export interface ButtonProps extends MuiButtonProps {}
 
 const Button = ({
   variant = "contained",

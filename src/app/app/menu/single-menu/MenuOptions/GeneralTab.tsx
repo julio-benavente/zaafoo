@@ -7,6 +7,16 @@ import {
 } from "@/components";
 import cn from "@/helpers/cn";
 import { RequestState } from "./types";
+import {
+  useForm,
+  useController,
+  UseFormReturn,
+  UseControllerProps,
+  UseControllerReturn,
+  ControllerRenderProps,
+  FieldValues,
+} from "react-hook-form";
+import { ButtonProps } from "@/components/Button";
 
 export interface GeneralTabDataProps {
   name?: string;
@@ -14,11 +24,12 @@ export interface GeneralTabDataProps {
 }
 
 interface GeneralTabProps {
-  cancelButtonAction: () => void;
-  actionButtonAction: () => void;
-  actionButtonLabel: string;
+  cancelButtonProps?: ButtonProps;
+  actionButtonProps?: ButtonProps;
   state?: RequestState;
   data?: GeneralTabDataProps;
+  itemsNameFormProps: ControllerRenderProps<FieldValues, any>;
+  basePriceFormProps: ControllerRenderProps<FieldValues, any>;
 }
 
 const GeneralTab = (props: GeneralTabProps) => {
@@ -30,6 +41,7 @@ const GeneralTab = (props: GeneralTabProps) => {
           <TextField
             placeholder="Item's name"
             defaultValue={props.data?.name}
+            {...props.itemsNameFormProps}
           />
         </InputContainer>
         <InputContainer>
@@ -37,6 +49,7 @@ const GeneralTab = (props: GeneralTabProps) => {
           <MoneyInput
             placeholder="$ 0.00"
             defaultValue={props.data?.basePrice}
+            {...props.basePriceFormProps}
           />
         </InputContainer>
       </div>
@@ -49,16 +62,11 @@ const GeneralTab = (props: GeneralTabProps) => {
         <Button
           variant="outlined"
           className="w-full order-2 sm:order-none sm:w-fit"
-          onClick={props.cancelButtonAction}
+          {...props.cancelButtonProps}
         >
           Cancel
         </Button>
-        <Button
-          onClick={() => props.actionButtonAction()}
-          className="w-full sm:w-fit"
-        >
-          {props.actionButtonLabel}
-        </Button>
+        <Button className="w-full sm:w-fit" {...props.actionButtonProps} />
       </div>
     </div>
   );

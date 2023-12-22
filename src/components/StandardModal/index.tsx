@@ -39,7 +39,7 @@ const StandardModal = ({
           size === "lg" && "sm:max-w-xl"
         )}
       >
-        <div className="py-3 px-5 border-b border-black grid grid-flow-col justify-between items-center gap-x-8">
+        <div className="py-3 px-5 border-b border-black grid grid-flow-col justify-between items-center gap-x-8 bg-pink-500">
           <Typography className="font-bold">{props.headerTitle}</Typography>
           <CloseOutlinedIcon
             className="cursor-pointer"

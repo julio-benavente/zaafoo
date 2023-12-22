@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type Response = "idle" | "loading" | "success" | "error";
+export type FakeResponse = "idle" | "loading" | "success" | "error";
 
 interface UseFakeRequestProps {
   success?: number;
@@ -8,13 +8,13 @@ interface UseFakeRequestProps {
 
 const useFakeRequest = (
   props: UseFakeRequestProps = {}
-): [Response, () => Promise<Response>] => {
+): [FakeResponse, () => Promise<FakeResponse>] => {
   const { success = 0.9 } = props || {};
-  const [fakeRequest, setFakeRequest] = useState<Response>("idle");
+  const [fakeRequest, setFakeRequest] = useState<FakeResponse>("idle");
 
   const request = async () => {
     setFakeRequest("loading");
-    const response: Response = await new Promise((resolve) => {
+    const response: FakeResponse = await new Promise((resolve) => {
       const response = Math.random() < success ? "success" : "error";
       setTimeout(() => {
         setFakeRequest(response);
