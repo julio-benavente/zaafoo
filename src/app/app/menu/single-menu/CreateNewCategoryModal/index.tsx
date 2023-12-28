@@ -1,28 +1,34 @@
 import {
   InputContainer,
   InputLabel,
+  RegularCloseButton,
+  SelectFreeSolo,
   StandardModal,
   TextField,
 } from "@/components";
+import { ReactNode, useState } from "react";
+import { renderInputComp } from "@/components/SelectFreeSolo";
 import useFakeRequest from "@/helpers/fakeRequest";
+import { closeSnackbar, enqueueSnackbar } from "notistack";
 import { useController, useForm } from "react-hook-form";
+import { v4 } from "uuid";
 import { createCategory } from "@/entities/menu/slice";
 import { useDispatch } from "react-redux";
 import succesfullSnackbar from "@/helpers/succesfulSnackbar";
 import errorSnackbar from "@/helpers/errorSnackbar";
 
-export interface CategoryModalDataProp {
-  name?: string;
-}
-
-interface IProps {
+interface CreateNewCategoryModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  data?: CategoryModalDataProp;
 }
 
-const EditCategoryModal = ({ open, setOpen, ...props }: IProps) => {
-  const handleEditCategory = async () => {
+const CreateNewCategoryModal = ({
+  open,
+  setOpen,
+}: CreateNewCategoryModalProps) => {
+  const addCategory = async () => {
+    console.log("....");
+    console.log(isSubmitting);
     if (!formIsValid) {
       trigger();
       return null;
@@ -32,15 +38,14 @@ const EditCategoryModal = ({ open, setOpen, ...props }: IProps) => {
 
     if (response === "success") {
       dispatch(createCategory({ name: getValues().categoryName }));
-      succesfullSnackbar("The category was upadted successfully.");
+      succesfullSnackbar("The category was created successfully.");
       setOpen(false);
       reset();
     } else {
       errorSnackbar("There was a problem. Try it again.");
     }
   };
-
-  const handleCloseModal = () => {
+  const closeModal = () => {
     setOpen(false);
     reset();
   };
@@ -51,38 +56,49 @@ const EditCategoryModal = ({ open, setOpen, ...props }: IProps) => {
     control,
     getValues,
     reset,
-    formState: { isValid: formIsValid },
+    handleSubmit,
+
+    formState: { isValid: formIsValid, isSubmitting },
     trigger,
   } = useForm<{ categoryName: string }>();
   const { field: categoryName } = useController({
     name: "categoryName",
     control,
     rules: { required: true },
-    defaultValue: props?.data?.name,
   });
+
+  const triggerSubmit = () => {
+    handleSubmit(addCategory)();
+  };
 
   return (
     <StandardModal
       open={open}
-      headerTitle="Edit category"
-      onClose={handleCloseModal}
+      title="Add category"
+      onClose={!isSubmitting ? closeModal : undefined}
       primaryButtonProps={{
-        label: fakeResponse !== "loading" ? "Update" : "Updating ...",
-        onClick: handleEditCategory,
+        children: fakeResponse !== "loading" ? "Create" : "Creating ...",
+        onClick: triggerSubmit,
+        disabled: isSubmitting,
       }}
       secondaryButtonProps={{
-        label: "Cancel",
-        onClick: handleCloseModal,
+        children: "Cancel",
+        onClick: closeModal,
+        disabled: isSubmitting,
       }}
     >
       <div className="grid grid-cols-1 gap-y-4">
         <InputContainer>
           <InputLabel>Name</InputLabel>
-          <TextField placeholder="Ex: Breakfast" {...categoryName} />
+          <TextField
+            placeholder="Ex: Size"
+            {...categoryName}
+            disabled={isSubmitting}
+          />
         </InputContainer>
       </div>
     </StandardModal>
   );
 };
 
-export default EditCategoryModal;
+export default CreateNewCategoryModal;

@@ -6,19 +6,11 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ErrorIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import WarningIcon from "@mui/icons-material/WarningAmberOutlined";
+import { ButtonProps } from "../Button";
+import { StandardModalProps } from "../StandardModal";
 
-export interface StandardModalProps extends MuiModalProps {
-  title?: string;
-  variant: "info" | "warning" | "success" | "error" | "error-alt";
-  size?: "sm" | "md" | "lg";
-  primaryButtonProps: {
-    label: ReactNode;
-    onClick: () => any;
-  };
-  secondaryButtonProps?: {
-    label: ReactNode;
-    onClick: () => any;
-  };
+export interface RegularAlertModalProps extends StandardModalProps {
+  variant?: "info" | "warning" | "success" | "error" | "error-alt";
 }
 
 const StandardModal = ({
@@ -27,7 +19,7 @@ const StandardModal = ({
   variant = "info",
   classes,
   ...props
-}: StandardModalProps) => {
+}: RegularAlertModalProps) => {
   return (
     <Modal
       open={open}
@@ -91,9 +83,7 @@ const StandardModal = ({
                 variant === "error-alt" &&
                   "border-red-500 text-red-500 bg-white",
               ])}
-            >
-              {props.primaryButtonProps.label}
-            </Button>
+            />
           )}
           {props.secondaryButtonProps && (
             <Button
@@ -103,9 +93,7 @@ const StandardModal = ({
                 variant === "error-alt" && "[&]:bg-red-500",
               ])}
               {...props.secondaryButtonProps}
-            >
-              {props.secondaryButtonProps.label}
-            </Button>
+            />
           )}
         </div>
       </div>

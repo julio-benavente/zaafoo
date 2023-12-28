@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import EditCategoryModal from "./EditCategoryModal";
+import EditCategoryModal from ".";
 import { useState } from "react";
 import { Button } from "@/components";
 

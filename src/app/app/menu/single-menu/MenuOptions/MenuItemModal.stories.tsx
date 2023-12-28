@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import CreateOrEditMenuItemModal from "./MenuItemModal";
+import MenuItemModal from "./MenuItemModal";
 import { Button } from "@/components";
 import { useState } from "react";
 
-const meta: Meta<typeof CreateOrEditMenuItemModal> = {
+const meta: Meta<typeof MenuItemModal> = {
   title: "Pages/Single Menu Page/Menu Item Modal",
-  component: CreateOrEditMenuItemModal,
+  component: MenuItemModal,
   parameters: {
     // layout: "fullscreen",
   },
@@ -23,7 +23,7 @@ const meta: Meta<typeof CreateOrEditMenuItemModal> = {
 
 export default meta;
 
-type Story = StoryObj<typeof CreateOrEditMenuItemModal>;
+type Story = StoryObj<typeof MenuItemModal>;
 
 export const Default: Story = {
   render: (args) => {
@@ -32,11 +32,7 @@ export const Default: Story = {
     return (
       <div>
         <Button onClick={() => setModalIsOpen(true)}>Open</Button>
-        <CreateOrEditMenuItemModal
-          {...args}
-          open={modalIsOpen}
-          setOpen={setModalIsOpen}
-        />
+        <MenuItemModal {...args} open={modalIsOpen} setOpen={setModalIsOpen} />
       </div>
     );
   },

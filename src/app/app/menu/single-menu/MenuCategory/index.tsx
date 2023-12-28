@@ -7,14 +7,16 @@ import {
 } from "@/components";
 import { useRef, useState } from "react";
 import { MenuCategoryProps } from "@/entities/menu/slice";
-import MenuItemComponent from "./MenuItem";
+import MenuItemComponent from "../MenuItem";
 import cn from "@/helpers/cn";
 import UnfoldMoreOutlinedIcon from "@mui/icons-material/UnfoldMoreOutlined";
 import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
-import CreateMenuItemModal from "./MenuOptions/CreateMenuItemModal";
+import CreateMenuItemModal from "../MenuOptions/MenuItemModal";
+import CreateNewCategoryModal from "../CreateNewCategoryModal";
+import EditCategoryModal from "../EditCategoryModal";
 
 const MenuCategory = (props: MenuCategoryProps) => {
   const [showMenuItems, setShowMenuItems] = useState(false);
@@ -31,6 +33,11 @@ const MenuCategory = (props: MenuCategoryProps) => {
   const handleAddNewItem = () => {
     setNewItemModalIsOpen(true);
     closeMenu();
+  };
+
+  const [editCategoryModalIsOpen, setEditCategoryModalIsOpen] = useState(false);
+  const openEditCategoryModal = () => {
+    setEditCategoryModalIsOpen(true);
   };
 
   return (
@@ -83,13 +90,13 @@ const MenuCategory = (props: MenuCategoryProps) => {
           <MenuItem variant="option" onClick={handleAddNewItem}>
             <ControlPointOutlinedIcon className="text-lg mr-2" /> Add New Item
           </MenuItem>
-          <MenuItem variant="option" onClick={closeMenu}>
+          <MenuItem variant="option" onClick={openEditCategoryModal}>
             <EditOutlinedIcon className="text-lg mr-2" /> Edit Category
           </MenuItem>
           <MenuItem
             variant="option"
             onClick={closeMenu}
-            classes={{ root: "text-red-500 hover:bg-red-50" }}
+            classes={{ root: "text-red-500 hover:bg-red-200" }}
           >
             <DeleteOutlineIcon className="text-lg mr-2" /> Delete Category
           </MenuItem>
@@ -100,7 +107,13 @@ const MenuCategory = (props: MenuCategoryProps) => {
           return <MenuItemComponent key={product.id} {...product} />;
         })}
 
+      <EditCategoryModal
+        open={editCategoryModalIsOpen}
+        setOpen={setEditCategoryModalIsOpen}
+      />
+
       <CreateMenuItemModal
+        variant="create"
         open={newItemModalIsOpen}
         setOpen={setNewItemModalIsOpen}
       />

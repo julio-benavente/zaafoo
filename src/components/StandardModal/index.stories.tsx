@@ -34,7 +34,7 @@ export const Default: Story = {
         <StandardModal
           {...props}
           open={modalIsOpen}
-          headerTitle="Create a new menu"
+          title="Create a new menu"
           onClose={closeModal}
           primaryButtonProps={{
             label: "Create a menu",
@@ -62,7 +62,7 @@ export const TwoButtons: Story = {
         <StandardModal
           {...props}
           open={modalIsOpen}
-          headerTitle="Create a new menu"
+          title="Create a new menu"
           onClose={closeModal}
           primaryButtonProps={{
             label: "Create a menu",

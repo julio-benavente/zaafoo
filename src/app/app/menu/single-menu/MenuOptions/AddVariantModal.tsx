@@ -43,7 +43,7 @@ const AddVariantModal = () => {
   return (
     <StandardModal
       open={addVariantModalIsOpen}
-      headerTitle="Create variant"
+      title="Create variant"
       onClose={onCloseModal}
       primaryButtonProps={{
         label: fakeResponse === "loading" ? "Creating ..." : "Create",

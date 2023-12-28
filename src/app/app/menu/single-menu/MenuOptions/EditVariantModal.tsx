@@ -22,7 +22,7 @@ const EditVariantModal = ({
   return (
     <StandardModal
       open={open}
-      headerTitle="Edit variant"
+      title="Edit variant"
       onClose={onClose}
       primaryButtonProps={{
         label: "Update",

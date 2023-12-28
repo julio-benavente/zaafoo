@@ -1,6 +1,5 @@
 import GeneralTab, { GeneralTabDataProps } from "./GeneralTab";
 import { MenuOptionsProps } from "./types";
-import { useDispatch } from "react-redux";
 import useFakeRequest from "@/helpers/fakeRequest";
 import MenuModalContainer from "./MenuModalContainer";
 import { UseFormReturn, useController, useForm } from "react-hook-form";
@@ -15,10 +14,7 @@ interface VariantProps {
   defaultData?: GeneralTabDataProps;
 }
 
-const CreateOrEditMenuItemModal = ({
-  variant = "create",
-  ...props
-}: MenuOptionsProps) => {
+const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
   const closeModal = () => {
     props.setOpen && props.setOpen(false);
   };
@@ -87,7 +83,7 @@ const CreateOrEditMenuItemModal = ({
   );
 };
 
-export default CreateOrEditMenuItemModal;
+export default MenuItemModal;
 
 const itemsNameFormProps = (formMethods: UseFormReturn) =>
   useController({

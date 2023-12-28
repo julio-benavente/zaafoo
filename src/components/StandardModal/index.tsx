@@ -3,18 +3,13 @@ import React, { ReactNode, useState } from "react";
 import { Button, Typography } from "..";
 import cn from "@/helpers/cn";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { ButtonProps } from "../Button";
 
 export interface StandardModalProps extends MuiModalProps {
-  headerTitle: string;
+  title?: string;
   size?: "sm" | "md" | "lg";
-  primaryButtonProps: {
-    label: ReactNode;
-    onClick: () => any;
-  };
-  secondaryButtonProps?: {
-    label: ReactNode;
-    onClick: () => any;
-  };
+  primaryButtonProps: ButtonProps;
+  secondaryButtonProps?: ButtonProps;
 }
 
 const StandardModal = ({
@@ -40,7 +35,7 @@ const StandardModal = ({
         )}
       >
         <div className="py-3 px-5 border-b border-black grid grid-flow-col justify-between items-center gap-x-8 bg-pink-500">
-          <Typography className="font-bold">{props.headerTitle}</Typography>
+          <Typography className="font-bold">{props.title}</Typography>
           <CloseOutlinedIcon
             className="cursor-pointer"
             onClick={(e) =>
@@ -57,14 +52,13 @@ const StandardModal = ({
           )}
         >
           {props.primaryButtonProps && (
-            <Button {...props.primaryButtonProps} className="sm:order-2">
-              {props.primaryButtonProps.label}
-            </Button>
+            <Button
+              {...props.primaryButtonProps}
+              className={cn("sm:order-2", props.primaryButtonProps.className)}
+            />
           )}
           {props.secondaryButtonProps && (
-            <Button variant="outlined" {...props.secondaryButtonProps}>
-              {props.secondaryButtonProps.label}
-            </Button>
+            <Button variant="outlined" {...props.secondaryButtonProps} />
           )}
         </div>
       </div>

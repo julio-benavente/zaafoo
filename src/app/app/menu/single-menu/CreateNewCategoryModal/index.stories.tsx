@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import CreatenewCategoryModal from "./CreateNewCategoryModal";
+import CreatenewCategoryModal from ".";
 import { useState } from "react";
 import { Button } from "@/components";
 
