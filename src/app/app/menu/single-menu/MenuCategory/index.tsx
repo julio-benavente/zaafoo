@@ -17,6 +17,7 @@ import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import CreateMenuItemModal from "../MenuOptions/MenuItemModal";
 import CreateNewCategoryModal from "../CreateNewCategoryModal";
 import EditCategoryModal from "../EditCategoryModal";
+import CategoryModal from "../CategoryModal";
 
 const MenuCategory = (props: MenuCategoryProps) => {
   const [showMenuItems, setShowMenuItems] = useState(false);
@@ -38,6 +39,7 @@ const MenuCategory = (props: MenuCategoryProps) => {
   const [editCategoryModalIsOpen, setEditCategoryModalIsOpen] = useState(false);
   const openEditCategoryModal = () => {
     setEditCategoryModalIsOpen(true);
+    closeMenu();
   };
 
   return (
@@ -107,12 +109,15 @@ const MenuCategory = (props: MenuCategoryProps) => {
           return <MenuItemComponent key={product.id} {...product} />;
         })}
 
-      <EditCategoryModal
+      <CategoryModal
         open={editCategoryModalIsOpen}
         setOpen={setEditCategoryModalIsOpen}
+        variant="update"
+        categoryProps={{ id: props.id, name: props.name }}
       />
 
       <CreateMenuItemModal
+        categoryId={props.id}
         variant="create"
         open={newItemModalIsOpen}
         setOpen={setNewItemModalIsOpen}

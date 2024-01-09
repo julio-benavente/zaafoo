@@ -13,7 +13,7 @@ export interface RegularAlertModalProps extends StandardModalProps {
   variant?: "info" | "warning" | "success" | "error" | "error-alt";
 }
 
-const StandardModal = ({
+const RegularAlertModal = ({
   open,
   size = "md",
   variant = "info",
@@ -101,4 +101,4 @@ const StandardModal = ({
   );
 };
 
-export default StandardModal;
+export default RegularAlertModal;

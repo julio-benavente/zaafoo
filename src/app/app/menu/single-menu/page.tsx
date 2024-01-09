@@ -1,18 +1,14 @@
 import { Button, Typography } from "@/components";
 import React, { useState } from "react";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import MenuOptions from "./MenuOptions";
 import CreateNewCategoryModal from "./CreateNewCategoryModal";
 import { selectMenu, MenuItemProps } from "@/entities/menu/slice";
 import { useSelector } from "react-redux";
 import MenuCategory from "./MenuCategory";
+import CategoryModal from "./CategoryModal";
 
 const SingleMenuPage = () => {
-  const [tabValue, setTabValue] = React.useState("menus");
   const menu = useSelector(selectMenu);
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
-    setTabValue(newValue);
-  };
   const [newCategoryModalIsOpen, setNewCategoryModalIsOpen] = useState(false);
 
   return (
@@ -34,10 +30,15 @@ const SingleMenuPage = () => {
           return <MenuCategory key={category.id} {...category} />;
         })}
       </div>
-      <CreateNewCategoryModal
+      <CategoryModal
         open={newCategoryModalIsOpen}
         setOpen={setNewCategoryModalIsOpen}
+        variant="create"
       />
+      {/* <CreateNewCategoryModal
+        open={newCategoryModalIsOpen}
+        setOpen={setNewCategoryModalIsOpen}
+      /> */}
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import StandardModal from "./index";
+import RegularAlertModal from "./index";
 import { useState } from "react";
 import { Button } from "..";
 
-const meta: Meta<typeof StandardModal> = {
+const meta: Meta<typeof RegularAlertModal> = {
   title: "Components/Regular Alert Modal",
-  component: StandardModal,
+  component: RegularAlertModal,
   argTypes: {
     variant: {
       type: "string",
@@ -35,7 +35,7 @@ const meta: Meta<typeof StandardModal> = {
 
 export default meta;
 
-type Story = StoryObj<typeof StandardModal>;
+type Story = StoryObj<typeof RegularAlertModal>;
 
 export const Default: Story = {
   render: (props) => {
@@ -45,7 +45,7 @@ export const Default: Story = {
     return (
       <div>
         <Button onClick={openModal}>Open menu modal</Button>
-        <StandardModal
+        <RegularAlertModal
           {...props}
           open={modalIsOpen}
           title="Create a new menu"
@@ -77,7 +77,7 @@ const TwoButtonsModalComponent = ({ variant, ...props }: any) => {
   return (
     <div>
       <Button onClick={openModal}>Open menu modal</Button>
-      <StandardModal
+      <RegularAlertModal
         {...props}
         variant={variant}
         open={modalIsOpen}

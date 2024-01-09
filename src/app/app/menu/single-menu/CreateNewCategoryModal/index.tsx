@@ -27,8 +27,6 @@ const CreateNewCategoryModal = ({
   setOpen,
 }: CreateNewCategoryModalProps) => {
   const addCategory = async () => {
-    console.log("....");
-    console.log(isSubmitting);
     if (!formIsValid) {
       trigger();
       return null;

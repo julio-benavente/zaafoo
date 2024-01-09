@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components";
 
 const meta: Meta<typeof EditCategoryModal> = {
-  title: "Pages/Single Menu Page/Edit new category modal",
+  title: "Pages/Single Menu Page/Edit category modal",
   component: EditCategoryModal,
   parameters: {
     // layout: "fullscreen",

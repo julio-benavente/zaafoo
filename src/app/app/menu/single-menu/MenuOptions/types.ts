@@ -7,6 +7,7 @@ export interface MenuOptionsProps {
   setOpen?: Dispatch<SetStateAction<boolean>>;
   variant: "create" | "update";
   closeModal?: () => void;
+  categoryId: string;
 }
 
 export type RequestState = "idle" | "loading" | "success" | "error";

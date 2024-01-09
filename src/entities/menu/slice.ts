@@ -2,6 +2,7 @@ import { RootState } from "@/store";
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
+import { initialCategoriesData } from "./initialCategoriesData";
 
 export interface CategorySettings {}
 export interface MenuItemVariant {
@@ -35,82 +36,7 @@ export interface MenuState {
 
 const initialState: MenuState = {
   basePrice: "0.00",
-  categories: [
-    {
-      id: uuid(),
-      name: "Desayunos",
-      menuItems: [
-        {
-          id: uuid(),
-          basePrice: "15.00",
-          name: "Pan con palta",
-          settings: {
-            isVisible: true,
-            isForAdultsOnly: false,
-            isAvailableAtSpecificDatesAndTime: false,
-          },
-        },
-        {
-          id: uuid(),
-          basePrice: "20.00",
-          name: "Pan con pollo",
-          settings: {
-            isVisible: true,
-            isForAdultsOnly: false,
-            isAvailableAtSpecificDatesAndTime: false,
-          },
-        },
-        {
-          id: uuid(),
-          basePrice: "9.00",
-          name: "Pan con salchicha",
-          settings: {
-            isVisible: true,
-            isForAdultsOnly: false,
-            isAvailableAtSpecificDatesAndTime: false,
-          },
-        },
-      ],
-      settings: {},
-    },
-    {
-      id: uuid(),
-      name: "Lonches",
-      menuItems: [
-        {
-          id: uuid(),
-          basePrice: "15.00",
-          name: "Pan con palta",
-          settings: {
-            isVisible: true,
-            isForAdultsOnly: false,
-            isAvailableAtSpecificDatesAndTime: false,
-          },
-        },
-        {
-          id: uuid(),
-          basePrice: "20.00",
-          name: "Pan con pollo",
-          settings: {
-            isVisible: true,
-            isForAdultsOnly: false,
-            isAvailableAtSpecificDatesAndTime: false,
-          },
-        },
-        {
-          id: uuid(),
-          basePrice: "9.00",
-          name: "Pan con salchicha",
-          settings: {
-            isVisible: true,
-            isForAdultsOnly: false,
-            isAvailableAtSpecificDatesAndTime: false,
-          },
-        },
-      ],
-      settings: {},
-    },
-  ],
+  categories: initialCategoriesData,
 };
 
 export const menuSlice = createSlice({
@@ -126,11 +52,49 @@ export const menuSlice = createSlice({
     ) => {
       state.categories.push({ id: uuid(), name: name, menuItems: [] });
     },
+    updateCategory: (state, { payload }: PayloadAction<MenuCategoryProps>) => {
+      const categoryIndex = state.categories.findIndex(
+        (e) => e.id === payload.id
+      );
+
+      console.log(categoryIndex);
+
+      state.categories[categoryIndex].name = payload.name;
+      state.categories[categoryIndex].settings = {
+        ...state.categories[categoryIndex].settings,
+        ...payload.settings,
+      };
+
+      return state;
+    },
+    createMenuItem: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{ categoryId: string; name: string; basePrice: string }>
+    ) => {
+      const categoryIndex = state.categories.findIndex(
+        (e) => e.id === payload.categoryId
+      );
+
+      state.categories[categoryIndex].menuItems?.push({
+        id: uuid(),
+        basePrice: payload.basePrice,
+        name: payload.name,
+        settings: {
+          isVisible: false,
+          isForAdultsOnly: false,
+          isAvailableAtSpecificDatesAndTime: false,
+        },
+        variants: [],
+      });
+    },
   },
 });
 
 export default menuSlice.reducer;
-export const { updateMenu, createCategory } = menuSlice.actions;
+export const { updateMenu, createCategory, createMenuItem, updateCategory } =
+  menuSlice.actions;
 
 export const selectMenu = createSelector(
   [(state: RootState) => state.menu],
