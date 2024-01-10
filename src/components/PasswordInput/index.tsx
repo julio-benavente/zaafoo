@@ -17,6 +17,7 @@ const PasswordInput = ({ name = "password", ...props }: TextFieldProps) => {
       InputProps={{
         endAdornment: (
           <InputAdornment
+            disablePointerEvents={props.disabled}
             position="end"
             className="cursor-pointer hover:text-purple-500"
             onClick={() => setIsVisible(!isVisible)}

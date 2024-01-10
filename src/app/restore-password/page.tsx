@@ -8,16 +8,19 @@ import {
 } from "@/components";
 import { Typography, InputContainer } from "@/components";
 import MeshBackgroundDecoration from "@/components/MeshBackgroundDecoration";
+import NextLink from "next/link";
 
 const SignInPage = () => {
   return (
-    <main>
-      <section className="container bg-yellow-50 min-h-screen overflow-hidden relative z-0">
+    <main className="bg-yellow-50">
+      <section className="container min-h-screen overflow-hidden relative z-0">
         <MeshBackgroundDecoration />
 
         <div>
           <div>
-            <Typography className="font-black mb-12">Zaafoo</Typography>
+            <NextLink href="/" className="">
+              <Typography className="font-black mb-12">Zaafoo</Typography>
+            </NextLink>
 
             <div className="max-w-sm">
               <div className="mb-12">

@@ -55,12 +55,20 @@ const Checkbox = ({
         <MuiCheckbox
           disableRipple
           icon={<></>}
-          checkedIcon={<Check className="text-sm text-white" />}
+          checkedIcon={
+            <Check
+              className={cn(
+                "text-sm text-white",
+                labelProps?.disabled && "text-gray-600"
+              )}
+            />
+          }
+          checked={Boolean(labelProps?.value)}
           classes={{
             root: cn(
               "group absolute top-0 rounded-[1px] border border-black border-solid w-5 h-5"
             ),
-
+            disabled: "[&]:bg-gray-200 border-gray-600 text-gray-600",
             checked: cn("bg-green-400 border-green-400"),
           }}
           {...restCheckboxProps}

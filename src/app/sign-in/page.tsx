@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Checkbox,
@@ -8,16 +10,84 @@ import {
 } from "@/components";
 import { Typography, InputContainer } from "@/components";
 import MeshBackgroundDecoration from "@/components/MeshBackgroundDecoration";
+import NextLink from "next/link";
+import { useController, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import useFakeRequest from "@/helpers/fakeRequest";
+import errorSnackbar from "@/helpers/errorSnackbar";
+
+interface FormProps {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+const formDefaultValues: FormProps = {
+  email: "email@email.com",
+  password: "password1234",
+  rememberMe: true,
+};
 
 const SignInPage = () => {
+  const {
+    control,
+    getValues,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormProps>({
+    mode: "all",
+    criteriaMode: "all",
+    defaultValues: formDefaultValues,
+  });
+
+  const { field: emailFormProps } = useController({
+    control,
+    name: "email",
+    rules: {
+      required: true,
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      minLength: 3,
+      maxLength: 120,
+    },
+  });
+  const { field: passwordFormProps } = useController({
+    control,
+    name: "password",
+    rules: {
+      required: true,
+      minLength: 8,
+      maxLength: 64,
+    },
+  });
+  const { field: rememberMeProps } = useController({
+    control,
+    name: "rememberMe",
+  });
+
+  const router = useRouter();
+  const [fakeResponse, fakeRequest] = useFakeRequest();
+
+  // console.log(getValues());
+  const submitForm = async (data: FormProps) => {
+    const response = await fakeRequest();
+
+    if (response === "success") {
+      router.push("/application");
+    } else {
+      errorSnackbar("An error occured. Try again.");
+    }
+  };
+
   return (
-    <main>
-      <section className="container bg-yellow-50 min-h-screen relative overflow-hidden z-0">
+    <main className="bg-yellow-50">
+      <section className="container min-h-screen relative overflow-hidden z-0">
         <MeshBackgroundDecoration />
 
         <div>
           <div>
-            <Typography className="font-black mb-12">Zaafoo</Typography>
+            <NextLink href="/" className="">
+              <Typography className="font-black mb-12">Zaafoo</Typography>
+            </NextLink>
 
             <div className="max-w-sm">
               <div className="mb-12">
@@ -27,33 +97,46 @@ const SignInPage = () => {
                 </Typography>
               </div>
 
-              <div className="grid gap-y-6 mb-4">
-                <InputContainer>
-                  <InputLabel htmlFor="email">Email</InputLabel>
-                  <EmailInput />
-                </InputContainer>
-
-                <InputContainer>
-                  <InputLabel htmlFor="password">Password</InputLabel>
-                  <PasswordInput />
-                </InputContainer>
-
-                <div className="flex flex-row">
+              <form onSubmit={handleSubmit(submitForm)}>
+                <div className="grid gap-y-6 mb-4">
                   <InputContainer>
-                    <Checkbox labelProps={{ label: "Remember me" }} />
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <EmailInput {...emailFormProps} disabled={isSubmitting} />
                   </InputContainer>
-                  <Typography variant="link" className="whitespace-nowrap">
-                    <Link>Recover password</Link>
-                  </Typography>
-                </div>
 
-                <Button fullWidth>Sign in</Button>
-              </div>
+                  <InputContainer>
+                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <PasswordInput
+                      {...passwordFormProps}
+                      disabled={isSubmitting}
+                    />
+                  </InputContainer>
+
+                  <div className="flex flex-row">
+                    <InputContainer>
+                      <Checkbox
+                        labelProps={{
+                          label: "Remember me",
+                          ...rememberMeProps,
+                          disabled: isSubmitting,
+                        }}
+                      />
+                    </InputContainer>
+                    <Typography variant="link" className="whitespace-nowrap">
+                      <Link href="/restore-password">Recover password</Link>
+                    </Typography>
+                  </div>
+
+                  <Button fullWidth type="submit" disabled={isSubmitting}>
+                    Sign in
+                  </Button>
+                </div>
+              </form>
 
               <Typography variant="caption">
                 You don't have an account?{" "}
                 <Typography variant="link">
-                  <Link href="#">Create an account</Link>
+                  <Link href="/sign-up">Create an account</Link>
                 </Typography>
                 .
               </Typography>
