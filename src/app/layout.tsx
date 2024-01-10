@@ -4,6 +4,7 @@ import ThemeProvider from "@/helpers/ThemeProvider";
 import "./globals.css";
 import { Provider } from "react-redux";
 import { store } from "@/store";
+import StoreContext from "@/store/StoreContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,11 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Provider store={store}>
+      <StoreContext>
         <ThemeProvider>
           <body className={`${cabinet.variable}`}>{children}</body>
         </ThemeProvider>
-      </Provider>
+      </StoreContext>
     </html>
   );
 }

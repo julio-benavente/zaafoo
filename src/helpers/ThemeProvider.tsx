@@ -1,3 +1,5 @@
+"use client";
+
 import { createTheme, PaletteColorOptions, Theme } from "@mui/material";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 
