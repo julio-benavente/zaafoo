@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@/components";
 import { useRef, useState } from "react";
-import { MenuCategoryProps } from "@/entities/menu/slice";
+import { MenuCategoryProps, deleteCategory } from "@/entities/menu/slice";
 import MenuItemComponent from "../MenuItem";
 import cn from "@/helpers/cn";
 import UnfoldMoreOutlinedIcon from "@mui/icons-material/UnfoldMoreOutlined";
@@ -15,9 +15,12 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import CreateMenuItemModal from "../MenuOptions/MenuItemModal";
-import CreateNewCategoryModal from "../CreateNewCategoryModal";
-import EditCategoryModal from "../EditCategoryModal";
 import CategoryModal from "../CategoryModal";
+import DeleteCategoryModal from "../DeleteCategoryModal";
+import useFakeRequest from "@/helpers/fakeRequest";
+import succesfullSnackbar from "@/helpers/succesfulSnackbar";
+import errorSnackbar from "@/helpers/errorSnackbar";
+import { useDispatch } from "react-redux";
 
 const MenuCategory = (props: MenuCategoryProps) => {
   const [showMenuItems, setShowMenuItems] = useState(false);
@@ -41,6 +44,18 @@ const MenuCategory = (props: MenuCategoryProps) => {
     setEditCategoryModalIsOpen(true);
     closeMenu();
   };
+
+  const [deleteCategoryModalIsOpen, setDeleteCategoryModalIsOpen] =
+    useState(false);
+  const openDeleteCategoryModal = () => {
+    setDeleteCategoryModalIsOpen(true);
+    closeMenu();
+  };
+
+  const [deleteCategoryFakeResponse, deleteCategoryFakeRequest] =
+    useFakeRequest();
+
+  const dispatch = useDispatch();
 
   return (
     <div className="mb-8">
@@ -97,7 +112,7 @@ const MenuCategory = (props: MenuCategoryProps) => {
           </MenuItem>
           <MenuItem
             variant="option"
-            onClick={closeMenu}
+            onClick={openDeleteCategoryModal}
             classes={{ root: "text-red-500 hover:bg-red-200" }}
           >
             <DeleteOutlineIcon className="text-lg mr-2" /> Delete Category
@@ -106,7 +121,13 @@ const MenuCategory = (props: MenuCategoryProps) => {
       </div>
       {showMenuItems &&
         props.menuItems?.map((product, i) => {
-          return <MenuItemComponent key={product.id} {...product} />;
+          return (
+            <MenuItemComponent
+              key={product.id}
+              categoryId={props.id}
+              {...product}
+            />
+          );
         })}
 
       <CategoryModal
@@ -114,6 +135,38 @@ const MenuCategory = (props: MenuCategoryProps) => {
         setOpen={setEditCategoryModalIsOpen}
         variant="update"
         categoryProps={{ id: props.id, name: props.name }}
+      />
+
+      <DeleteCategoryModal
+        open={deleteCategoryModalIsOpen}
+        category={props.name}
+        primaryButtonProps={{
+          children:
+            deleteCategoryFakeResponse === "loading"
+              ? "Deleting ..."
+              : "Delete",
+          disabled: deleteCategoryFakeResponse === "loading",
+          onClick: async () => {
+            const response = await deleteCategoryFakeRequest();
+
+            if (response === "success") {
+              dispatch(deleteCategory({ id: props.id }));
+              succesfullSnackbar(
+                `${props.name} category was successfully deleted.`
+              );
+              setDeleteCategoryModalIsOpen(false);
+            } else {
+              errorSnackbar(`There's a problem. Try it again.`);
+            }
+          },
+        }}
+        secondaryButtonProps={{
+          children: "Cancel",
+          disabled: deleteCategoryFakeResponse === "loading",
+          onClick: () => {
+            setDeleteCategoryModalIsOpen(false);
+          },
+        }}
       />
 
       <CreateMenuItemModal

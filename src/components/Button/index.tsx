@@ -27,10 +27,10 @@ const Button = ({
         containedSecondary: cn("bg-pink-500"),
         disabled: cn(
           variant === "contained" && [
-            "[&]:bg-gray-200 [&]:text-gray-600 [&]:border-gray-600",
+            "[&&]:bg-gray-200 [&]:text-gray-600 [&]:border-gray-600",
           ],
           variant === "outlined" && [
-            "[&]:border-gray-200 [&]:text-gray-600 [&]:border-gray-600 [&]:bg-gray-50",
+            "[&]:border-gray-200 [&]:text-gray-600 [&]:border-gray-600 [&&]:bg-gray-50",
           ]
         ),
         sizeSmall: cn("text-xs py-2 px-5"),

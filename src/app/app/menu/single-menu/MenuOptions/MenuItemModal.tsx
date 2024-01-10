@@ -8,11 +8,11 @@ import {
   useController,
   useForm,
 } from "react-hook-form";
-import updatePrices from "./updatePrices";
+import updateMenuItemAction from "./updateMenuItemAction";
 import { useDispatch } from "react-redux";
 import succesfullSnackbar from "@/helpers/succesfulSnackbar";
 import errorSnackbar from "@/helpers/errorSnackbar";
-import { createMenuItem } from "@/entities/menu/slice";
+import { createMenuItem, updateMenuItem } from "@/entities/menu/slice";
 
 interface VariantProps {
   title: string;
@@ -20,7 +20,12 @@ interface VariantProps {
   buttonLoadingLabel: string;
   cancelButtonAction: () => void;
   actionButtonAction: () => void;
-  defaultData?: GeneralTabDataProps;
+  defaultData?: Omit<GeneralTabDataProps, "id">;
+}
+
+interface MenuItemModalFormProps {
+  name: string;
+  basePrice: string;
 }
 
 const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
@@ -29,13 +34,20 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
   };
 
   const [fakeResponse, fakeRequest] = useFakeRequest({ success: 0.8 });
-  const formMethods = useForm({ mode: "all" });
+  const formMethods = useForm<MenuItemModalFormProps>({
+    mode: "all",
+    criteriaMode: "all",
+    defaultValues: props.defaultData,
+  });
+
+  const { handleSubmit, getValues } = formMethods;
 
   const dispatch = useDispatch();
 
   const cancelMenuItemModal = () => {
     closeModal();
   };
+
   const createMenuItemAction = async () => {
     const response = await fakeRequest();
 
@@ -43,7 +55,7 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
       dispatch(
         createMenuItem({
           categoryId: props.categoryId,
-          name: formMethods.getValues().itemsName,
+          name: formMethods.getValues().name,
           basePrice: formMethods.getValues().basePrice,
         })
       );
@@ -68,12 +80,27 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
       buttonLable: "Update",
       buttonLoadingLabel: "Updating ...",
       cancelButtonAction: closeModal,
-      actionButtonAction: () =>
-        updatePrices({ formMethods, closeModal, fakeRequest }),
-      defaultData: {
-        name: "Carne asada",
-        basePrice: "29239.20",
+      actionButtonAction: () => {
+        formMethods.handleSubmit(async (data) => {
+          const response = await fakeRequest();
+
+          if (response === "success") {
+            dispatch(
+              updateMenuItem({
+                categoryId: props.categoryId,
+                id: props.defaultData?.id!,
+                ...data,
+              })
+            );
+            succesfullSnackbar("The item was updated successfully.");
+            formMethods.reset();
+            closeModal();
+          } else {
+            errorSnackbar("We couldn't update the item. Try it again.");
+          }
+        })();
       },
+      defaultData: props.defaultData,
     },
   };
 
@@ -88,7 +115,6 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
       <FormProvider {...formMethods}>
         <GeneralTab
           state={fakeResponse}
-          data={chosenVariant.defaultData}
           itemsNameFormProps={{
             ...itemsNameFormProps(formMethods).field,
             disabled: fakeResponse === "loading",
@@ -118,16 +144,20 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
 
 export default MenuItemModal;
 
-const itemsNameFormProps = (formMethods: UseFormReturn) =>
+const itemsNameFormProps = (
+  formMethods: UseFormReturn<MenuItemModalFormProps>
+) =>
   useController({
-    name: "itemsName",
+    name: "name",
     rules: {
       required: true,
     },
     control: formMethods.control,
   });
 
-const basePriceFormProps = (formMethods: UseFormReturn) =>
+const basePriceFormProps = (
+  formMethods: UseFormReturn<MenuItemModalFormProps>
+) =>
   useController({
     name: "basePrice",
     rules: {

@@ -20,6 +20,7 @@ import {
 import { ButtonProps } from "@/components/Button";
 
 export interface GeneralTabDataProps {
+  id: string;
   name?: string;
   basePrice?: string;
 }
@@ -28,7 +29,6 @@ interface GeneralTabProps {
   cancelButtonProps?: ButtonProps;
   actionButtonProps?: ButtonProps;
   state?: RequestState;
-  data?: GeneralTabDataProps;
   itemsNameFormProps: ControllerRenderProps<FieldValues, any>;
   basePriceFormProps: ControllerRenderProps<FieldValues, any>;
 }
@@ -39,19 +39,11 @@ const GeneralTab = (props: GeneralTabProps) => {
       <div className="flex flex-col gap-4">
         <InputContainer>
           <InputLabel>Name</InputLabel>
-          <TextField
-            placeholder="Item's name"
-            defaultValue={props.data?.name}
-            {...props.itemsNameFormProps}
-          />
+          <TextField placeholder="Item's name" {...props.itemsNameFormProps} />
         </InputContainer>
         <InputContainer>
           <InputLabel>Base Price</InputLabel>
-          <MoneyInput
-            placeholder="$ 0.00"
-            defaultValue={props.data?.basePrice}
-            {...props.basePriceFormProps}
-          />
+          <MoneyInput placeholder="$ 0.00" {...props.basePriceFormProps} />
         </InputContainer>
       </div>
       <div

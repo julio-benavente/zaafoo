@@ -103,8 +103,6 @@ const CategoryModal = ({ ...props }: CategoryModalProps) => {
         handleSubmit(async (data) => {
           const response = await fakeRequest();
 
-          console.log(response);
-
           if (response === "success") {
             dispatch(
               updateCategory({ id: props.categoryProps?.id!, name: data.name })

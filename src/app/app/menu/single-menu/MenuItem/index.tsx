@@ -1,27 +1,33 @@
 import { Typography } from "@/components";
 import { useRef, useState } from "react";
 
-import { MenuItemProps } from "@/entities/menu/slice";
+import { MenuItemProps, deleteMenuItem } from "@/entities/menu/slice";
 import { Menu, OptionsButton } from "@/components";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { MenuItem as MenuItemComponent } from "@/components";
-import UpdateMenuItemModal from "../MenuOptions/MenuItemModal";
+import MenuItemModal from "../MenuOptions/MenuItemModal";
 import DeleteMenuItemModal from "./DeleteMenuItemModal";
+import { useDispatch } from "react-redux";
 
-const MenuItem = (props: MenuItemProps) => {
+interface MenuItemComponentProps extends MenuItemProps {
+  categoryId: string;
+}
+
+const MenuItem = (props: MenuItemComponentProps) => {
+  const dispatch = useDispatch();
+
   const [updateItemModalIsOpen, setUpdateItemModalIsOpen] = useState(false);
 
   const [deleteMenuItemModalIsOpen, setDeleteMenuItemModalIsOpen] =
     useState(false);
   const closeDeleteMenuItemModal = () => {
-    setDeleteMenuItemModalIsOpen(false);
     closeMenu();
-    closeDeleteMenuItemModal();
+    setDeleteMenuItemModalIsOpen(false);
   };
   const deleteMenuItemHandler = () => {
-    setDeleteMenuItemModalIsOpen(false);
-    closeMenu();
+    console.log({ categoryId: props.categoryId, id: props.id });
+    dispatch(deleteMenuItem({ categoryId: props.categoryId, id: props.id }));
     closeDeleteMenuItemModal();
   };
 
@@ -64,17 +70,19 @@ const MenuItem = (props: MenuItemProps) => {
         open={deleteMenuItemModalIsOpen}
         category={props.name}
         primaryButtonProps={{
-          onClick: closeDeleteMenuItemModal,
+          onClick: deleteMenuItemHandler,
         }}
         secondaryButtonProps={{
-          onClick: deleteMenuItemHandler,
+          onClick: closeDeleteMenuItemModal,
         }}
       />
 
-      <UpdateMenuItemModal
+      <MenuItemModal
         variant="update"
+        categoryId={props.categoryId}
         open={updateItemModalIsOpen}
         setOpen={setUpdateItemModalIsOpen}
+        defaultData={{ ...props }}
       />
     </div>
   );

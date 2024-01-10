@@ -3,6 +3,7 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
 import { initialCategoriesData } from "./initialCategoriesData";
+import updateNestedProperty from "@/helpers/updateNestedProperty";
 
 export interface CategorySettings {}
 export interface MenuItemVariant {
@@ -26,7 +27,7 @@ export interface MenuCategoryProps {
   id: string;
   name: string;
   settings?: CategorySettings;
-  menuItems?: Array<MenuItemProps>;
+  menuItems: Array<MenuItemProps>;
 }
 
 export interface MenuState {
@@ -57,15 +58,21 @@ export const menuSlice = createSlice({
         (e) => e.id === payload.id
       );
 
-      console.log(categoryIndex);
-
       state.categories[categoryIndex].name = payload.name;
       state.categories[categoryIndex].settings = {
         ...state.categories[categoryIndex].settings,
         ...payload.settings,
       };
+    },
+    deleteCategory: (state, { payload }: PayloadAction<{ id: string }>) => {
+      const categoryIndex = state.categories.findIndex(
+        (e) => e.id === payload.id
+      );
 
-      return state;
+      const arrayCategory = state.categories;
+      arrayCategory.splice(categoryIndex, 1);
+
+      state.categories = arrayCategory;
     },
     createMenuItem: (
       state,
@@ -89,12 +96,67 @@ export const menuSlice = createSlice({
         variants: [],
       });
     },
+    updateMenuItem: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        categoryId: string;
+        id: string;
+        name?: string;
+        basePrice?: string;
+      }>
+    ) => {
+      const categoryIndex = state.categories.findIndex(
+        (e) => e.id === payload.categoryId
+      );
+
+      if (categoryIndex < 0) {
+        return undefined;
+      }
+
+      const menuItemIndex = state.categories[
+        categoryIndex
+      ].menuItems?.findIndex((e) => e.id === payload.id);
+
+      const element = state.categories[categoryIndex].menuItems[menuItemIndex];
+
+      state.categories[categoryIndex].menuItems[menuItemIndex] =
+        updateNestedProperty(element, payload);
+    },
+    deleteMenuItem: (
+      state,
+      { payload }: PayloadAction<{ categoryId: string; id: string }>
+    ) => {
+      const categoryIndex = state.categories.findIndex(
+        (e) => e.id === payload.categoryId
+      );
+
+      if (categoryIndex < 0) {
+        return undefined;
+      }
+
+      const menuItemIndex = state.categories[
+        categoryIndex
+      ].menuItems?.findIndex((e) => e.id === payload.id);
+
+      const arrayMenuItems = state.categories[categoryIndex].menuItems;
+      arrayMenuItems.splice(menuItemIndex, 1);
+      state.categories[categoryIndex].menuItems = arrayMenuItems;
+    },
   },
 });
 
 export default menuSlice.reducer;
-export const { updateMenu, createCategory, createMenuItem, updateCategory } =
-  menuSlice.actions;
+export const {
+  updateMenu,
+  createCategory,
+  deleteCategory,
+  createMenuItem,
+  updateCategory,
+  updateMenuItem,
+  deleteMenuItem,
+} = menuSlice.actions;
 
 export const selectMenu = createSelector(
   [(state: RootState) => state.menu],
