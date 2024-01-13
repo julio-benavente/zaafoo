@@ -20,6 +20,7 @@ const MoreNavItems = ({ navItems }: { navItems: NavbarItemProps[] }) => {
           {navItems.map((e) => {
             return (
               <Link
+                key={e.label}
                 href={e.path}
                 className="py-2 px-4 border-black [&:not(:last-of-type)]:border-b grid grid-cols-[auto_1fr] gap-x-2 hover:bg-purple-700 hover:text-white"
               >

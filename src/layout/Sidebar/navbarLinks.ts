@@ -1,7 +1,8 @@
 import Contrast from "@mui/icons-material/Contrast";
 import PublicIcon from "@mui/icons-material/Public";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-export default [
+
+const navbarLinks = [
   {
     icon: RestaurantIcon,
     path: "/application/menu",
@@ -18,3 +19,5 @@ export default [
     label: "Website",
   },
 ];
+
+export default navbarLinks;
