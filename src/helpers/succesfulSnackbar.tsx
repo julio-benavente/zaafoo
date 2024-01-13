@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import { closeSnackbar, enqueueSnackbar } from "notistack";
 import { v4 } from "uuid";

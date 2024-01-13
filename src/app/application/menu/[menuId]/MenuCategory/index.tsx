@@ -14,7 +14,7 @@ import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
-import CreateMenuItemModal from "../MenuOptions/MenuItemModal";
+import MenuItemModal from "../MenuOptions/MenuItemModal";
 import CategoryModal from "../CategoryModal";
 import DeleteCategoryModal from "../DeleteCategoryModal";
 import useFakeRequest from "@/helpers/fakeRequest";
@@ -22,7 +22,11 @@ import succesfullSnackbar from "@/helpers/succesfulSnackbar";
 import errorSnackbar from "@/helpers/errorSnackbar";
 import { useDispatch } from "react-redux";
 
-const MenuCategory = (props: MenuCategoryProps) => {
+interface IProps extends MenuCategoryProps {
+  menuId: string;
+}
+
+const MenuCategory = (props: IProps) => {
   const [showMenuItems, setShowMenuItems] = useState(false);
   const toggleMenuItemsDisplay = () => {
     setShowMenuItems(!showMenuItems);
@@ -123,6 +127,7 @@ const MenuCategory = (props: MenuCategoryProps) => {
         props.menuItems?.map((product, i) => {
           return (
             <MenuItemComponent
+              menuId={props.menuId}
               key={product.id}
               categoryId={props.id}
               {...product}
@@ -131,6 +136,7 @@ const MenuCategory = (props: MenuCategoryProps) => {
         })}
 
       <CategoryModal
+        menuId={props.menuId}
         open={editCategoryModalIsOpen}
         setOpen={setEditCategoryModalIsOpen}
         variant="update"
@@ -150,7 +156,12 @@ const MenuCategory = (props: MenuCategoryProps) => {
             const response = await deleteCategoryFakeRequest();
 
             if (response === "success") {
-              dispatch(deleteCategory({ id: props.id }));
+              dispatch(
+                deleteCategory({
+                  menuId: props.menuId,
+                  id: props.id,
+                })
+              );
               succesfullSnackbar(
                 `${props.name} category was successfully deleted.`
               );
@@ -169,7 +180,8 @@ const MenuCategory = (props: MenuCategoryProps) => {
         }}
       />
 
-      <CreateMenuItemModal
+      <MenuItemModal
+        menuId={props.menuId}
         categoryId={props.id}
         variant="create"
         open={newItemModalIsOpen}

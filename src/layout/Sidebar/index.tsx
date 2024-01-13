@@ -17,7 +17,7 @@ const Sidebar = () => {
         <BigScreenNavbarLink />
         <MediumScreenNavbarLink />
       </nav>
-      <UserCard />
+      {/* <UserCard /> */}
     </section>
   );
 };

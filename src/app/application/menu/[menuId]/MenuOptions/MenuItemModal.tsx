@@ -54,6 +54,7 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
     if (response === "success") {
       dispatch(
         createMenuItem({
+          menuId: props.menuId,
           categoryId: props.categoryId,
           name: formMethods.getValues().name,
           basePrice: formMethods.getValues().basePrice,
@@ -87,6 +88,7 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
           if (response === "success") {
             dispatch(
               updateMenuItem({
+                menuId: props.menuId,
                 categoryId: props.categoryId,
                 id: props.defaultData?.id!,
                 ...data,

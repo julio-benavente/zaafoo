@@ -8,6 +8,7 @@ export interface MenuOptionsProps {
   setOpen?: Dispatch<SetStateAction<boolean>>;
   variant: "create" | "update";
   closeModal?: () => void;
+  menuId: string;
   categoryId: string;
   defaultData?: GeneralTabDataProps;
 }

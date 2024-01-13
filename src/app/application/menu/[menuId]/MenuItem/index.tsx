@@ -11,6 +11,7 @@ import DeleteMenuItemModal from "./DeleteMenuItemModal";
 import { useDispatch } from "react-redux";
 
 interface MenuItemComponentProps extends MenuItemProps {
+  menuId: string;
   categoryId: string;
 }
 
@@ -26,8 +27,13 @@ const MenuItem = (props: MenuItemComponentProps) => {
     setDeleteMenuItemModalIsOpen(false);
   };
   const deleteMenuItemHandler = () => {
-    console.log({ categoryId: props.categoryId, id: props.id });
-    dispatch(deleteMenuItem({ categoryId: props.categoryId, id: props.id }));
+    dispatch(
+      deleteMenuItem({
+        menuId: props.menuId,
+        categoryId: props.categoryId,
+        id: props.id,
+      })
+    );
     closeDeleteMenuItemModal();
   };
 
@@ -79,6 +85,7 @@ const MenuItem = (props: MenuItemComponentProps) => {
 
       <MenuItemModal
         variant="update"
+        menuId={props.menuId}
         categoryId={props.categoryId}
         open={updateItemModalIsOpen}
         setOpen={setUpdateItemModalIsOpen}

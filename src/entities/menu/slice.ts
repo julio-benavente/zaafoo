@@ -30,61 +30,92 @@ export interface MenuCategoryProps {
   menuItems: Array<MenuItemProps>;
 }
 
-export interface MenuState {
-  basePrice: string;
+export interface MenuProps {
+  id: string;
+  order: number;
+  name: string;
   categories: Array<MenuCategoryProps>;
 }
 
-const initialState: MenuState = {
-  basePrice: "0.00",
-  categories: initialCategoriesData,
-};
+const initialState: MenuProps[] = [
+  {
+    id: "66109a1d-9a33-47f7-b5ae-4de3j44523ea",
+    order: 0,
+    name: "Menu daily",
+    categories: initialCategoriesData,
+  },
+];
 
 export const menuSlice = createSlice({
   name: "menu",
   initialState,
   reducers: {
-    updateMenu: (state, action) => {
-      state.basePrice = action.payload.basePrice;
-    },
     createCategory: (
       state,
-      { payload: { name } }: PayloadAction<{ name: string }>
+      {
+        payload: { name, menuId },
+      }: PayloadAction<{ menuId: string; name: string }>
     ) => {
-      state.categories.push({ id: uuid(), name: name, menuItems: [] });
+      const menuIndex = state.findIndex((e) => e.id === menuId);
+
+      state[menuIndex].categories.push({
+        id: uuid(),
+        name: name,
+        menuItems: [],
+      });
     },
-    updateCategory: (state, { payload }: PayloadAction<MenuCategoryProps>) => {
-      const categoryIndex = state.categories.findIndex(
+    updateCategory: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{ menuId: string } & Partial<MenuCategoryProps>>
+    ) => {
+      const menuIndex = state.findIndex((e) => e.id === payload.menuId);
+      const categoryIndex = state[menuIndex].categories.findIndex(
         (e) => e.id === payload.id
       );
 
-      state.categories[categoryIndex].name = payload.name;
-      state.categories[categoryIndex].settings = {
-        ...state.categories[categoryIndex].settings,
+      if (payload.name) {
+        state[menuIndex].categories[categoryIndex].name = payload.name;
+      }
+
+      state[menuIndex].categories[categoryIndex].settings = {
+        ...state[menuIndex].categories[categoryIndex].settings,
         ...payload.settings,
       };
     },
-    deleteCategory: (state, { payload }: PayloadAction<{ id: string }>) => {
-      const categoryIndex = state.categories.findIndex(
+    deleteCategory: (
+      state,
+      { payload }: PayloadAction<{ menuId: string; id: string }>
+    ) => {
+      const menuIndex = state.findIndex((e) => e.id === payload.menuId);
+
+      const categoryIndex = state[menuIndex].categories.findIndex(
         (e) => e.id === payload.id
       );
 
-      const arrayCategory = state.categories;
+      const arrayCategory = state[menuIndex].categories;
       arrayCategory.splice(categoryIndex, 1);
 
-      state.categories = arrayCategory;
+      state[menuIndex].categories = arrayCategory;
     },
     createMenuItem: (
       state,
       {
         payload,
-      }: PayloadAction<{ categoryId: string; name: string; basePrice: string }>
+      }: PayloadAction<{
+        menuId: string;
+        categoryId: string;
+        name: string;
+        basePrice: string;
+      }>
     ) => {
-      const categoryIndex = state.categories.findIndex(
+      const menuIndex = state.findIndex((e) => e.id === payload.menuId);
+      const categoryIndex = state[menuIndex].categories.findIndex(
         (e) => e.id === payload.categoryId
       );
 
-      state.categories[categoryIndex].menuItems?.push({
+      state[menuIndex].categories[categoryIndex].menuItems?.push({
         id: uuid(),
         basePrice: payload.basePrice,
         name: payload.name,
@@ -101,13 +132,16 @@ export const menuSlice = createSlice({
       {
         payload,
       }: PayloadAction<{
+        menuId: string;
         categoryId: string;
         id: string;
         name?: string;
         basePrice?: string;
       }>
     ) => {
-      const categoryIndex = state.categories.findIndex(
+      const menuIndex = state.findIndex((e) => e.id === payload.menuId);
+
+      const categoryIndex = state[menuIndex].categories.findIndex(
         (e) => e.id === payload.categoryId
       );
 
@@ -115,20 +149,25 @@ export const menuSlice = createSlice({
         return undefined;
       }
 
-      const menuItemIndex = state.categories[
+      const menuItemIndex = state[menuIndex].categories[
         categoryIndex
       ].menuItems?.findIndex((e) => e.id === payload.id);
 
-      const element = state.categories[categoryIndex].menuItems[menuItemIndex];
+      const element =
+        state[menuIndex].categories[categoryIndex].menuItems[menuItemIndex];
 
-      state.categories[categoryIndex].menuItems[menuItemIndex] =
+      state[menuIndex].categories[categoryIndex].menuItems[menuItemIndex] =
         updateNestedProperty(element, payload);
     },
     deleteMenuItem: (
       state,
-      { payload }: PayloadAction<{ categoryId: string; id: string }>
+      {
+        payload,
+      }: PayloadAction<{ menuId: string; categoryId: string; id: string }>
     ) => {
-      const categoryIndex = state.categories.findIndex(
+      const menuIndex = state.findIndex((e) => e.id === payload.menuId);
+
+      const categoryIndex = state[menuIndex].categories.findIndex(
         (e) => e.id === payload.categoryId
       );
 
@@ -136,20 +175,20 @@ export const menuSlice = createSlice({
         return undefined;
       }
 
-      const menuItemIndex = state.categories[
+      const menuItemIndex = state[menuIndex].categories[
         categoryIndex
       ].menuItems?.findIndex((e) => e.id === payload.id);
 
-      const arrayMenuItems = state.categories[categoryIndex].menuItems;
+      const arrayMenuItems =
+        state[menuIndex].categories[categoryIndex].menuItems;
       arrayMenuItems.splice(menuItemIndex, 1);
-      state.categories[categoryIndex].menuItems = arrayMenuItems;
+      state[menuIndex].categories[categoryIndex].menuItems = arrayMenuItems;
     },
   },
 });
 
 export default menuSlice.reducer;
 export const {
-  updateMenu,
   createCategory,
   deleteCategory,
   createMenuItem,
@@ -158,7 +197,15 @@ export const {
   deleteMenuItem,
 } = menuSlice.actions;
 
-export const selectMenu = createSelector(
+export const getMenus = createSelector(
   [(state: RootState) => state.menu],
   (menu) => menu
+);
+
+export const selectMenu = createSelector(
+  [(state: RootState, id) => state.menu, (state, id) => id],
+  (menu, id) => {
+    const element = menu.find((e) => e.id === id);
+    return element;
+  }
 );

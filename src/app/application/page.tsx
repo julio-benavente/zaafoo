@@ -1,7 +1,9 @@
 import React from "react";
+import { redirect } from "next/navigation";
 
 const AppPage = () => {
-  return <div>AppPage</div>;
+  redirect("/application/menu");
+  return <div></div>;
 };
 
 export default AppPage;

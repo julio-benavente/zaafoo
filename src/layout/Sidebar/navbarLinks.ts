@@ -1,44 +1,20 @@
 import Contrast from "@mui/icons-material/Contrast";
-
+import PublicIcon from "@mui/icons-material/Public";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
 export default [
   {
-    icon: Contrast,
-    path: "/",
-    label: "Page page",
-  },
-  {
-    icon: Contrast,
-    path: "/",
-    label: "Page page",
-  },
-  {
-    icon: Contrast,
-    path: "/",
-    label: "Page page",
-  },
-  {
-    icon: Contrast,
-    path: "/",
-    label: "Page page",
-  },
-  {
-    icon: Contrast,
-    path: "/",
-    label: "Orders",
-  },
-  {
-    icon: Contrast,
-    path: "/",
-    label: "Settings",
-  },
-  {
-    icon: Contrast,
-    path: "/",
+    icon: RestaurantIcon,
+    path: "/application/menu",
     label: "Menus",
   },
+  // {
+  //   icon: Contrast,
+  //   path: "/",
+  //   label: "Settings",
+  // },
   {
-    icon: Contrast,
-    path: "/",
+    icon: PublicIcon,
+    path: "/website/single-page",
     label: "Website",
   },
 ];

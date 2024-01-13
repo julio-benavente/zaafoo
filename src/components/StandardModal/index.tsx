@@ -16,6 +16,8 @@ const StandardModal = ({
   open,
   size = "md",
   classes,
+  primaryButtonProps,
+  secondaryButtonProps,
   ...props
 }: StandardModalProps) => {
   return (
@@ -51,14 +53,14 @@ const StandardModal = ({
             "sm:grid-flow-col sm:auto-cols-fr sm:ml-auto sm:w-fit"
           )}
         >
-          {props.primaryButtonProps && (
+          {primaryButtonProps && (
             <Button
-              {...props.primaryButtonProps}
-              className={cn("sm:order-2", props.primaryButtonProps.className)}
+              {...primaryButtonProps}
+              className={cn("sm:order-2", primaryButtonProps.className)}
             />
           )}
-          {props.secondaryButtonProps && (
-            <Button variant="outlined" {...props.secondaryButtonProps} />
+          {secondaryButtonProps && (
+            <Button variant="outlined" {...secondaryButtonProps} />
           )}
         </div>
       </div>

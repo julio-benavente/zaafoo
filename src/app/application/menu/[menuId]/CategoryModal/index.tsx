@@ -1,3 +1,5 @@
+"use client";
+
 import { InputContainer, InputLabel, TextField } from "@/components";
 import { ButtonProps } from "@/components/Button";
 import StandardModal, { StandardModalProps } from "@/components/StandardModal";
@@ -27,6 +29,7 @@ interface CategoryModalProps
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   variant: "create" | "update";
   categoryProps?: Pick<MenuCategoryProps, "id" | "name">;
+  menuId: string;
 }
 
 interface CategoryVariantProp {
@@ -35,7 +38,7 @@ interface CategoryVariantProp {
   secondaryButtonProps?: ButtonProps;
 }
 
-const CategoryModal = ({ ...props }: CategoryModalProps) => {
+const CategoryModal = ({ setOpen, menuId, ...props }: CategoryModalProps) => {
   const dispatch = useDispatch();
 
   // Form
@@ -54,7 +57,7 @@ const CategoryModal = ({ ...props }: CategoryModalProps) => {
   const [fakeResponse, fakeRequest] = useFakeRequest();
 
   const closeModal = () => {
-    props.setOpen && props.setOpen(false);
+    setOpen && setOpen(false);
   };
 
   // Variants
@@ -75,10 +78,10 @@ const CategoryModal = ({ ...props }: CategoryModalProps) => {
           const response = await fakeRequest();
 
           if (response === "success") {
-            dispatch(createCategory({ name: data.name }));
+            dispatch(createCategory({ menuId: menuId, name: data.name }));
             succesfullSnackbar("The category was created successfully.");
             reset();
-            props.setOpen(false);
+            setOpen(false);
           } else {
             errorSnackbar("There was a problem. Try it again.");
           }
@@ -105,11 +108,15 @@ const CategoryModal = ({ ...props }: CategoryModalProps) => {
 
           if (response === "success") {
             dispatch(
-              updateCategory({ id: props.categoryProps?.id!, name: data.name })
+              updateCategory({
+                menuId: menuId,
+                id: props.categoryProps?.id!,
+                name: data.name,
+              })
             );
             succesfullSnackbar("The category was updated successfully.");
             reset();
-            props.setOpen(false);
+            setOpen(false);
           } else {
             errorSnackbar("There was a problem. Try it again.");
           }
@@ -167,6 +174,7 @@ export const GeneralOptions = () => {
         <InputLabel>Name</InputLabel>
         <TextField
           placeholder="Ex: Size"
+          // InputProps={{ ...categoryNameFormProps }}
           {...categoryNameFormProps}
           disabled={isSubmitting}
         />
