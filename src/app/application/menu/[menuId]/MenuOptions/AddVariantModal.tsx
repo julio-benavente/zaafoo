@@ -46,11 +46,11 @@ const AddVariantModal = () => {
       title="Create variant"
       onClose={onCloseModal}
       primaryButtonProps={{
-        label: fakeResponse === "loading" ? "Creating ..." : "Create",
+        children: fakeResponse === "loading" ? "Creating ..." : "Create",
         onClick: onCreateVariant,
       }}
       secondaryButtonProps={{
-        label: "Cancel",
+        children: "Cancel",
         onClick: onCloseModal,
       }}
     >
