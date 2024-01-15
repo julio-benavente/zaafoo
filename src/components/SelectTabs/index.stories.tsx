@@ -16,28 +16,32 @@ export default meta;
 
 type Story = StoryObj<typeof SelectTabs>;
 
+const DefaultWithHooks = () => {
+  const [age, setAge] = React.useState<string>("pescado");
+
+  const handleChange = (
+    event: SelectChangeEvent<unknown>,
+    child: ReactNode
+  ) => {
+    setAge(event.target.value as string);
+  };
+  return (
+    <SelectTabs value={age} onChange={handleChange}>
+      <MenuItem variant="tab" value="pescado">
+        Pescado
+      </MenuItem>
+      <MenuItem variant="tab" value="mariscos">
+        Mariscos
+      </MenuItem>
+      <MenuItem variant="tab" value="polleria">
+        Polleria
+      </MenuItem>
+    </SelectTabs>
+  );
+};
+
 export const Default: Story = {
   render: () => {
-    const [age, setAge] = React.useState<string>("pescado");
-
-    const handleChange = (
-      event: SelectChangeEvent<unknown>,
-      child: ReactNode
-    ) => {
-      setAge(event.target.value as string);
-    };
-    return (
-      <SelectTabs value={age} onChange={handleChange}>
-        <MenuItem variant="tab" value="pescado">
-          Pescado
-        </MenuItem>
-        <MenuItem variant="tab" value="mariscos">
-          Mariscos
-        </MenuItem>
-        <MenuItem variant="tab" value="polleria">
-          Polleria
-        </MenuItem>
-      </SelectTabs>
-    );
+    return <DefaultWithHooks />;
   },
 };

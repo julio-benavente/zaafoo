@@ -12,4 +12,6 @@ const OptionsButton = forwardRef(({ ...props }: IconButtonProps, ref: any) => {
   );
 });
 
+OptionsButton.displayName = "OptionsButton";
+
 export default OptionsButton;

@@ -19,29 +19,36 @@ type Story = StoryObj<typeof CategoryModal>;
 
 export const Default: Story = {};
 
+const CreateCategoryWithHook = (args: any) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  return (
+    <CategoryModal {...args} open={modalIsOpen} setOpen={setModalIsOpen} />
+  );
+};
+
 export const CreateCategory: Story = {
   render: ({ ...args }) => {
-    const [modalIsOpen, setModalIsOpen] = useState(true);
-    return (
-      <CategoryModal {...args} open={modalIsOpen} setOpen={setModalIsOpen} />
-    );
+    return <CreateCategoryWithHook {...args} />;
   },
 };
 
+const UpdateCategoryWithHooks = (args: any) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  return (
+    <CategoryModal
+      {...args}
+      categoryProps={{
+        id: "66f4bce9-8521-4309-8dc8-8c54b71bb89e",
+        name: "Desayunos",
+      }}
+      open={modalIsOpen}
+      setOpen={setModalIsOpen}
+    />
+  );
+};
 export const UpdateCategory: Story = {
   render: ({ ...args }) => {
-    const [modalIsOpen, setModalIsOpen] = useState(true);
-    return (
-      <CategoryModal
-        {...args}
-        categoryProps={{
-          id: "66f4bce9-8521-4309-8dc8-8c54b71bb89e",
-          name: "Desayunos",
-        }}
-        open={modalIsOpen}
-        setOpen={setModalIsOpen}
-      />
-    );
+    return <UpdateCategoryWithHooks {...args} />;
   },
 };
 

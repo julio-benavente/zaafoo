@@ -4,6 +4,8 @@ import useFakeRequest from "@/helpers/fakeRequest";
 import MenuModalContainer from "./MenuModalContainer";
 import {
   FormProvider,
+  UseControllerProps,
+  UseControllerReturn,
   UseFormReturn,
   useController,
   useForm,
@@ -43,6 +45,8 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
   const { handleSubmit, getValues } = formMethods;
 
   const dispatch = useDispatch();
+
+  const a = useController({ control: formMethods.control, name: "basePrice" });
 
   const cancelMenuItemModal = () => {
     closeModal();
@@ -108,6 +112,16 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
 
   const chosenVariant = menuVariantsProps[variant];
 
+  const itemsNameController = useController({
+    control: formMethods.control,
+    ...itemsNameFormProps,
+  });
+
+  const basePriceController = useController({
+    control: formMethods.control,
+    ...basePriceFormProps,
+  });
+
   return (
     <MenuModalContainer
       open={props.open}
@@ -118,11 +132,11 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
         <GeneralTab
           state={fakeResponse}
           itemsNameFormProps={{
-            ...itemsNameFormProps(formMethods).field,
+            ...itemsNameController.field,
             disabled: fakeResponse === "loading",
           }}
           basePriceFormProps={{
-            ...basePriceFormProps(formMethods).field,
+            ...basePriceController.field,
             disabled: fakeResponse === "loading",
           }}
           cancelButtonProps={{
@@ -146,24 +160,16 @@ const MenuItemModal = ({ variant = "create", ...props }: MenuOptionsProps) => {
 
 export default MenuItemModal;
 
-const itemsNameFormProps = (
-  formMethods: UseFormReturn<MenuItemModalFormProps>
-) =>
-  useController({
-    name: "name",
-    rules: {
-      required: true,
-    },
-    control: formMethods.control,
-  });
+const itemsNameFormProps: UseControllerProps<MenuItemModalFormProps> = {
+  name: "name",
+  rules: {
+    required: true,
+  },
+};
 
-const basePriceFormProps = (
-  formMethods: UseFormReturn<MenuItemModalFormProps>
-) =>
-  useController({
-    name: "basePrice",
-    rules: {
-      required: true,
-    },
-    control: formMethods.control,
-  });
+const basePriceFormProps: UseControllerProps<MenuItemModalFormProps> = {
+  name: "basePrice",
+  rules: {
+    required: true,
+  },
+};

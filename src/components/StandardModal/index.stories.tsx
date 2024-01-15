@@ -23,65 +23,73 @@ export default meta;
 
 type Story = StoryObj<typeof StandardModal>;
 
+const DefaultWithHooks = (props: any) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  return (
+    <div>
+      <Button onClick={openModal}>Open menu modal</Button>
+      <StandardModal
+        {...props}
+        open={modalIsOpen}
+        title="Create a new menu"
+        onClose={closeModal}
+        primaryButtonProps={{
+          label: "Create a menu",
+          onClick: () => {
+            console.log("Create menu");
+            closeModal();
+          },
+        }}
+      >
+        <p></p>
+      </StandardModal>
+    </div>
+  );
+};
+
 export const Default: Story = {
   render: (props) => {
-    const [modalIsOpen, setModalIsOpen] = useState(true);
-    const openModal = () => setModalIsOpen(true);
-    const closeModal = () => setModalIsOpen(false);
-    return (
-      <div>
-        <Button onClick={openModal}>Open menu modal</Button>
-        <StandardModal
-          {...props}
-          open={modalIsOpen}
-          title="Create a new menu"
-          onClose={closeModal}
-          primaryButtonProps={{
-            label: "Create a menu",
-            onClick: () => {
-              console.log("Create menu");
-              closeModal();
-            },
-          }}
-        >
-          <p></p>
-        </StandardModal>
-      </div>
-    );
+    return <DefaultWithHooks {...props} />;
   },
+};
+
+const TwoButtonsWithHook = (props: any) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  return (
+    <div>
+      <Button onClick={openModal}>Open menu modal</Button>
+      <StandardModal
+        {...props}
+        open={modalIsOpen}
+        title="Create a new menu"
+        onClose={closeModal}
+        primaryButtonProps={{
+          label: "Create a menu",
+          onClick: () => {
+            console.log("Create menu");
+            closeModal();
+          },
+        }}
+        secondaryButtonProps={{
+          label: "Cancel",
+          onClick: () => {
+            console.log("Cancel menu creation");
+            closeModal();
+          },
+        }}
+      >
+        <p></p>
+      </StandardModal>
+    </div>
+  );
 };
 
 export const TwoButtons: Story = {
   render: (props) => {
-    const [modalIsOpen, setModalIsOpen] = useState(true);
-    const openModal = () => setModalIsOpen(true);
-    const closeModal = () => setModalIsOpen(false);
-    return (
-      <div>
-        <Button onClick={openModal}>Open menu modal</Button>
-        <StandardModal
-          {...props}
-          open={modalIsOpen}
-          title="Create a new menu"
-          onClose={closeModal}
-          primaryButtonProps={{
-            label: "Create a menu",
-            onClick: () => {
-              console.log("Create menu");
-              closeModal();
-            },
-          }}
-          secondaryButtonProps={{
-            label: "Cancel",
-            onClick: () => {
-              console.log("Cancel menu creation");
-              closeModal();
-            },
-          }}
-        >
-          <p></p>
-        </StandardModal>
-      </div>
-    );
+    return <TwoButtonsWithHook {...props} />;
   },
 };

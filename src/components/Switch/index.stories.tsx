@@ -13,37 +13,43 @@ export default meta;
 
 type Story = StoryObj<typeof FormControlLabelSwitch | typeof Switch>;
 
-export const Default: Story = {
-  render: (args: any) => {
-    const { control } = useForm();
-    const { field: settingOne } = useController({
-      name: "setting-one",
-      control,
-    });
+const DefaultWithHooks = () => {
+  const { control } = useForm();
+  const { field: settingOne } = useController({
+    name: "setting-one",
+    control,
+  });
 
-    return (
-      <FormControlLabelSwitch
-        label="This a label for a swtich component"
-        control={<Switch {...settingOne} />}
-      />
-    );
-  },
+  return (
+    <FormControlLabelSwitch
+      label="This a label for a swtich component"
+      control={<Switch {...settingOne} />}
+    />
+  );
+};
+
+export const Default: Story = {
+  render: (args: any) => <DefaultWithHooks />,
+};
+
+const WithControlsWithHooks = (args: any) => {
+  const { control } = useForm();
+  const { field: settingOne } = useController({
+    name: "setting-one",
+    control,
+  });
+
+  return (
+    <FormControlLabelSwitch
+      label={args?.label}
+      control={<Switch {...settingOne} {...args} />}
+    />
+  );
 };
 
 export const WithControls: Story = {
   render: (args: any) => {
-    const { control } = useForm();
-    const { field: settingOne } = useController({
-      name: "setting-one",
-      control,
-    });
-
-    return (
-      <FormControlLabelSwitch
-        label={args?.label}
-        control={<Switch {...settingOne} {...args} />}
-      />
-    );
+    return <WithControlsWithHooks {...args} />;
   },
 };
 WithControls.args = {

@@ -69,98 +69,102 @@ WithActionButton.args = {
   action: <Button size="small">Action</Button>,
 };
 
-export const WithStacks: Story = {
-  render: () => {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+const WithStacksWithHooks = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    const action = (snackbarId) => (
+  const action = (snackbarId) => (
+    <Button
+      size="small"
+      onClick={() => {
+        closeSnackbar(snackbarId);
+      }}
+    >
+      Dismiss
+    </Button>
+  );
+
+  return (
+    <div className="grid gap-2 auto-cols-auto grid-flow-col">
       <Button
-        size="small"
         onClick={() => {
-          closeSnackbar(snackbarId);
+          closeSnackbar();
         }}
       >
-        Dismiss
+        Close
       </Button>
-    );
+      <Button
+        onClick={() => {
+          const id = Math.random();
+          enqueueSnackbar({
+            color: "default",
+            children: "This is an Default alert",
+            id: id,
+            action: (
+              <Button
+                size="small"
+                onClick={() => {
+                  closeSnackbar(id);
+                }}
+              >
+                Dismiss
+              </Button>
+            ),
+          });
+        }}
+      >
+        Default
+      </Button>
+      <Button
+        onClick={() => {
+          enqueueSnackbar({
+            color: "info",
+            severity: "info",
+            children: "This is an Info alert",
+          });
+        }}
+      >
+        Info
+      </Button>
+      <Button
+        onClick={() => {
+          enqueueSnackbar({
+            color: "warning",
+            children: (
+              <p>
+                This is an <b> Warning </b> alert
+              </p>
+            ),
+          });
+        }}
+      >
+        Warning
+      </Button>
+      <Button
+        onClick={() => {
+          enqueueSnackbar({
+            color: "success",
+            children: "This is an Success alert",
+          });
+        }}
+      >
+        Success
+      </Button>
+      <Button
+        onClick={() => {
+          enqueueSnackbar({
+            color: "error",
+            children: "This is an Error alert",
+          });
+        }}
+      >
+        Error
+      </Button>
+    </div>
+  );
+};
 
-    return (
-      <div className="grid gap-2 auto-cols-auto grid-flow-col">
-        <Button
-          onClick={() => {
-            closeSnackbar();
-          }}
-        >
-          Close
-        </Button>
-        <Button
-          onClick={() => {
-            const id = Math.random();
-            enqueueSnackbar({
-              color: "default",
-              children: "This is an Default alert",
-              id: id,
-              action: (
-                <Button
-                  size="small"
-                  onClick={() => {
-                    closeSnackbar(id);
-                  }}
-                >
-                  Dismiss
-                </Button>
-              ),
-            });
-          }}
-        >
-          Default
-        </Button>
-        <Button
-          onClick={() => {
-            enqueueSnackbar({
-              color: "info",
-              severity: "info",
-              children: "This is an Info alert",
-            });
-          }}
-        >
-          Info
-        </Button>
-        <Button
-          onClick={() => {
-            enqueueSnackbar({
-              color: "warning",
-              children: (
-                <p>
-                  This is an <b> Warning </b> alert
-                </p>
-              ),
-            });
-          }}
-        >
-          Warning
-        </Button>
-        <Button
-          onClick={() => {
-            enqueueSnackbar({
-              color: "success",
-              children: "This is an Success alert",
-            });
-          }}
-        >
-          Success
-        </Button>
-        <Button
-          onClick={() => {
-            enqueueSnackbar({
-              color: "error",
-              children: "This is an Error alert",
-            });
-          }}
-        >
-          Error
-        </Button>
-      </div>
-    );
+export const WithStacks: Story = {
+  render: () => {
+    return <WithStacksWithHooks />;
   },
 };

@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { RootState } from "@/store";
 import MenuCategory from "../MenuCategory";
 
-const index = ({ data }: { data: MenuProps }) => {
+const Main = ({ data }: { data: MenuProps }) => {
   const [newCategoryModalIsOpen, setNewCategoryModalIsOpen] = useState(false);
 
   return (
@@ -40,4 +40,4 @@ const index = ({ data }: { data: MenuProps }) => {
   );
 };
 
-export default index;
+export default Main;

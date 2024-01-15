@@ -134,7 +134,7 @@ const SignInPage = () => {
               </form>
 
               <Typography variant="caption">
-                You don't have an account?{" "}
+                You don&lsquo;t have an account?{" "}
                 <Typography variant="link">
                   <Link href="/sign-up">Create an account</Link>
                 </Typography>

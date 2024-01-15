@@ -45,4 +45,6 @@ const Snackbar = forwardRef(
   }
 );
 
+Snackbar.displayName = "Snackbar";
+
 export default Snackbar;

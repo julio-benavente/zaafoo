@@ -32,8 +32,8 @@ const VariantsTab = () => {
       <div>
         <div className="grid grid-cols-1">
           <div className="">
-            {variantsList.map((variant) => {
-              return <Variant {...variant} />;
+            {variantsList.map((variant, i) => {
+              return <Variant key={i} {...variant} />;
             })}
           </div>
         </div>
@@ -115,7 +115,7 @@ const Variant = (props: VariantProps) => {
           },
         ].map((e) => {
           return (
-            <MenuItem variant="option" onClick={e.onClick}>
+            <MenuItem key={e.label} variant="option" onClick={e.onClick}>
               <e.icon className="text-sm mr-2" /> {e.label}
             </MenuItem>
           );
@@ -144,8 +144,8 @@ const Variant = (props: VariantProps) => {
         }}
       >
         <>
-          You're about to delete this variant and there is no way back. Are you
-          sure you want to delete it?
+          You&lsquo;re about to delete this variant and there is no way back.
+          Are you sure you want to delete it?
         </>
       </RegularAlertModal>
     </div>

@@ -66,7 +66,7 @@ const MenuOptionsProvider = ({ children }: { children: ReactNode }) => {
           }),
       },
     }),
-    [setMenuOptions]
+    [setMenuOptions, menuOptions]
   );
 
   return (

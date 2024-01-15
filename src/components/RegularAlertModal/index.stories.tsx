@@ -37,29 +37,33 @@ export default meta;
 
 type Story = StoryObj<typeof RegularAlertModal>;
 
+const DefaultWithHooks = (props: any) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  return (
+    <div>
+      <Button onClick={openModal}>Open menu modal</Button>
+      <RegularAlertModal
+        {...props}
+        open={modalIsOpen}
+        title="Create a new menu"
+        onClose={closeModal}
+        primaryButtonProps={{
+          label: "Create a menu",
+          onClick: () => {
+            console.log("Create menu");
+            closeModal();
+          },
+        }}
+      />
+    </div>
+  );
+};
+
 export const Default: Story = {
   render: (props) => {
-    const [modalIsOpen, setModalIsOpen] = useState(true);
-    const openModal = () => setModalIsOpen(true);
-    const closeModal = () => setModalIsOpen(false);
-    return (
-      <div>
-        <Button onClick={openModal}>Open menu modal</Button>
-        <RegularAlertModal
-          {...props}
-          open={modalIsOpen}
-          title="Create a new menu"
-          onClose={closeModal}
-          primaryButtonProps={{
-            label: "Create a menu",
-            onClick: () => {
-              console.log("Create menu");
-              closeModal();
-            },
-          }}
-        />
-      </div>
-    );
+    return <DefaultWithHooks {...props} />;
   },
 };
 

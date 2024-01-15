@@ -25,15 +25,19 @@ export default meta;
 
 type Story = StoryObj<typeof MenuItemModal>;
 
+const DefaultWithHooks = (args: any) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+
+  return (
+    <div>
+      <Button onClick={() => setModalIsOpen(true)}>Open</Button>
+      <MenuItemModal {...args} open={modalIsOpen} setOpen={setModalIsOpen} />
+    </div>
+  );
+};
+
 export const Default: Story = {
   render: (args) => {
-    const [modalIsOpen, setModalIsOpen] = useState(true);
-
-    return (
-      <div>
-        <Button onClick={() => setModalIsOpen(true)}>Open</Button>
-        <MenuItemModal {...args} open={modalIsOpen} setOpen={setModalIsOpen} />
-      </div>
-    );
+    return <DefaultWithHooks {...args} />;
   },
 };

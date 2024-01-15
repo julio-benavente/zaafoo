@@ -13,7 +13,12 @@ export const renderTagsComp = (
   getTagProps: AutocompleteRenderGetTagProps
 ) =>
   value.map((option: string, index: number) => (
-    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+    <Chip
+      variant="outlined"
+      label={option}
+      {...getTagProps({ index })}
+      key={index}
+    />
   ));
 
 export const renderInputComp = (params: AutocompleteRenderInputParams) => (

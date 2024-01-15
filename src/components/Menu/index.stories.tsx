@@ -30,37 +30,41 @@ DefaultOn.args = {
   ),
 };
 
+const WithOptionsButtonWithHooks = () => {
+  const anchorRef = useRef(null);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const closeMenu = () => setMenuIsOpen(false);
+  return (
+    <div className="relative">
+      <OptionsButton
+        onClick={() => setMenuIsOpen(!menuIsOpen)}
+        ref={anchorRef}
+      />
+      <Menu
+        open={menuIsOpen}
+        onClose={() => setMenuIsOpen(false)}
+        anchorEl={anchorRef.current}
+      >
+        <MenuItem variant="option" onClick={closeMenu}>
+          One
+        </MenuItem>
+        <MenuItem variant="option" onClick={closeMenu}>
+          One
+        </MenuItem>
+        <MenuItem variant="option" onClick={closeMenu}>
+          One
+        </MenuItem>
+        <MenuItem variant="option" onClick={closeMenu}>
+          One
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+};
+
 export const WithOptionsButton: Story = {
   render: () => {
-    const anchorRef = useRef(null);
-    const [menuIsOpen, setMenuIsOpen] = useState(false);
-    const closeMenu = () => setMenuIsOpen(false);
-    return (
-      <div className="relative">
-        <OptionsButton
-          onClick={() => setMenuIsOpen(!menuIsOpen)}
-          ref={anchorRef}
-        />
-        <Menu
-          open={menuIsOpen}
-          onClose={() => setMenuIsOpen(false)}
-          anchorEl={anchorRef.current}
-        >
-          <MenuItem variant="option" onClick={closeMenu}>
-            One
-          </MenuItem>
-          <MenuItem variant="option" onClick={closeMenu}>
-            One
-          </MenuItem>
-          <MenuItem variant="option" onClick={closeMenu}>
-            One
-          </MenuItem>
-          <MenuItem variant="option" onClick={closeMenu}>
-            One
-          </MenuItem>
-        </Menu>
-      </div>
-    );
+    return <WithOptionsButtonWithHooks />;
   },
 };
 

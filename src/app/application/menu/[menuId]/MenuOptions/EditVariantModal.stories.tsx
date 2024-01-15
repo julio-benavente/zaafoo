@@ -15,47 +15,53 @@ export default meta;
 
 type Story = StoryObj<typeof EditVariantModal>;
 
+const ModalOpenWithHooks = () => {
+  const [editModalIsOpen, setEditModalIsOpen] = useState(true);
+  const closeEditModal = () => setEditModalIsOpen(false);
+  const onActionEditModal = () => {
+    closeEditModal();
+  };
+  const onCloseEditModal = () => {
+    closeEditModal();
+  };
+  return (
+    <EditVariantModal
+      open={editModalIsOpen}
+      onAction={onActionEditModal}
+      onClose={onCloseEditModal}
+    />
+  );
+};
+
 export const ModalOpen: Story = {
   render: () => {
-    const [editModalIsOpen, setEditModalIsOpen] = useState(true);
-    const closeEditModal = () => setEditModalIsOpen(false);
-    const onActionEditModal = () => {
-      closeEditModal();
-    };
-    const onCloseEditModal = () => {
-      closeEditModal();
-    };
-    return (
+    return <ModalOpenWithHooks />;
+  },
+};
+
+const ModalCloseWithHooks = () => {
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+  const closeEditModal = () => setEditModalIsOpen(false);
+  const onActionEditModal = () => {
+    closeEditModal();
+  };
+  const onCloseEditModal = () => {
+    closeEditModal();
+  };
+  return (
+    <div>
+      <Button onClick={() => setEditModalIsOpen(true)}>Open Edit Modal</Button>
       <EditVariantModal
         open={editModalIsOpen}
         onAction={onActionEditModal}
         onClose={onCloseEditModal}
       />
-    );
-  },
+    </div>
+  );
 };
 
 export const ModalClose: Story = {
   render: () => {
-    const [editModalIsOpen, setEditModalIsOpen] = useState(false);
-    const closeEditModal = () => setEditModalIsOpen(false);
-    const onActionEditModal = () => {
-      closeEditModal();
-    };
-    const onCloseEditModal = () => {
-      closeEditModal();
-    };
-    return (
-      <div>
-        <Button onClick={() => setEditModalIsOpen(true)}>
-          Open Edit Modal
-        </Button>
-        <EditVariantModal
-          open={editModalIsOpen}
-          onAction={onActionEditModal}
-          onClose={onCloseEditModal}
-        />
-      </div>
-    );
+    return <ModalCloseWithHooks />;
   },
 };
