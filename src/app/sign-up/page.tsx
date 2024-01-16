@@ -95,7 +95,7 @@ const SignInPage = () => {
     const response = await fakeRequest();
 
     if (response === "success") {
-      router.push("/application");
+      router.push("/application/menu");
     } else {
       errorSnackbar("An error occured. Try again.");
     }

@@ -2,11 +2,12 @@ import {
   Button,
   InputContainer,
   InputLabel,
+  StandardModal,
   TextField,
   Typography,
 } from "@/components";
 import Link from "next/link";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import VerifiedUserOutlined from "@mui/icons-material/VerifiedUserOutlined";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import Modal from "@mui/material/Modal";
@@ -16,9 +17,9 @@ import { MenuProps, getMenus } from "@/entities/menu/slice";
 import { RootState } from "@/store";
 
 const MenuSection = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
+  const [createMenuModalIsOpen, setCreateMenuModalIsOpen] = useState(false);
+  const openModal = () => setCreateMenuModalIsOpen(true);
+  const closeModal = () => setCreateMenuModalIsOpen(false);
 
   const dispatch = useDispatch();
   const menus = useSelector((state: RootState) => state.menu);
@@ -48,6 +49,7 @@ const MenuSection = () => {
           </Button>
         </div>
       )}
+
       {menus.length > 0 && (
         <div className="grid grid-cols-1">
           {menus.map((e) => {
@@ -75,56 +77,48 @@ const MenuSection = () => {
         </div>
       )}
 
-      <Modal
-        open={modalIsOpen}
-        onClose={closeModal}
-        classes={{ backdrop: "bg-black/90" }}
-      >
-        <div
-          className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 outline-none",
-            "bg-white rounded-sm w-[calc(100%-10vw)] sm:w-auto sm:min-w-lg"
-          )}
-        >
-          <div className="py-3 px-5 border-b border-black">
-            <Typography className="font-bold">Create a new menu</Typography>
-          </div>
-          <div className="py-5 px-5">
-            <InputContainer>
-              <InputLabel>Name</InputLabel>
-              <TextField placeholder="Your menu's name" />
-            </InputContainer>
-
-            <div className="grid grid-flow-col auto-cols-fr w-fit mt-8 gap-x-4 ml-auto">
-              <Button variant="outlined" onClick={closeModal}>
-                Cancel
-              </Button>
-              <Button onClick={closeModal}>Create menu</Button>
-            </div>
-          </div>
-        </div>
-      </Modal>
+      <CreateMenuModal
+        open={createMenuModalIsOpen}
+        setOpen={setCreateMenuModalIsOpen}
+      />
     </>
   );
 };
 
 export default MenuSection;
 
-const menuList = [
-  {
-    name: "Menu one",
-    path: "/menu-one",
-  },
-  //   {
-  //     name: "Menu two",
-  //     path: "/menu-two",
-  //   },
-  //   {
-  //     name: "Menu three",
-  //     path: "/menu-three",
-  //   },
-  //   {
-  //     name: "Menu four",
-  //     path: "/menu-four",
-  //   },
-];
+interface CreateMenuModal {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const CreateMenuModal = (props: CreateMenuModal) => {
+  const closeModal = () => {
+    props.setOpen && props.setOpen(false);
+  };
+
+  return (
+    <form>
+      <StandardModal
+        title="Create menu"
+        open={props.open}
+        onClose={closeModal}
+        primaryButtonProps={{
+          children: "Create",
+          onClick: closeModal,
+        }}
+        secondaryButtonProps={{
+          children: "Cancel",
+          onClick: closeModal,
+        }}
+      >
+        <div>
+          <InputContainer>
+            <InputLabel>Name</InputLabel>
+            <TextField placeholder="Your menu's name" />
+          </InputContainer>
+        </div>
+      </StandardModal>
+    </form>
+  );
+};
