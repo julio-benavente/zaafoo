@@ -1,6 +1,6 @@
 import { InputContainer, InputLabel, TextField } from "@/components";
 import { useController, useFormContext } from "react-hook-form";
-import { MenuFormProps } from "./EditMenuModal";
+import { MenuFormProps } from "./types";
 
 interface MenuOptionsProps {}
 

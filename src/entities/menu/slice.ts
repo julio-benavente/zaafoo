@@ -46,10 +46,36 @@ const initialState: MenuProps[] = [
   },
 ];
 
+let maxOrderObject = (array: any[]) =>
+  array.reduce((max, obj) => (obj.order > max.order ? obj : max), array[0]);
+
 export const menuSlice = createSlice({
   name: "menu",
   initialState,
   reducers: {
+    createMenu: (state, { payload }: PayloadAction<{ name: string }>) => {
+      const maxOrder = maxOrderObject(state);
+      state.push({
+        id: uuid(),
+        name: payload.name,
+        order: maxOrder + 1,
+        categories: [],
+      });
+    },
+
+    updateMenu: (
+      state,
+      { payload }: PayloadAction<{ id: string; name: string }>
+    ) => {
+      const menuIndex = state.findIndex((menu) => menu.id === payload.id);
+
+      console.log(menuIndex);
+      console.log(payload);
+
+      console.log(updateNestedProperty(state[menuIndex], { ...payload }));
+
+      state[menuIndex] = updateNestedProperty(state[menuIndex], { ...payload });
+    },
     createCategory: (
       state,
       {
@@ -189,6 +215,8 @@ export const menuSlice = createSlice({
 
 export default menuSlice.reducer;
 export const {
+  createMenu,
+  updateMenu,
   createCategory,
   deleteCategory,
   createMenuItem,

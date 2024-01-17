@@ -10,17 +10,17 @@ import { FormProvider, useForm } from "react-hook-form";
 import useFakeRequest from "@/helpers/fakeRequest";
 import succesfullSnackbar from "@/helpers/succesfulSnackbar";
 import errorSnackbar from "@/helpers/errorSnackbar";
+import { MenuProps, updateMenu } from "@/entities/menu/slice";
+import { MenuFormProps } from "./types";
+import { useDispatch } from "react-redux";
 
-interface CreateMenuModal {
+interface EditMenuModal {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  data: Partial<MenuProps>;
 }
 
-export interface MenuFormProps {
-  name: string;
-}
-
-const EditMenuModal = (props: CreateMenuModal) => {
+const EditMenuModal = (props: EditMenuModal) => {
   const closeModal = () => {
     props.setOpen && props.setOpen(false);
   };
@@ -28,22 +28,29 @@ const EditMenuModal = (props: CreateMenuModal) => {
   const formMethods = useForm<MenuFormProps>({
     mode: "all",
     criteriaMode: "all",
+    defaultValues: {
+      ...props.data,
+    },
   });
 
   const {
     handleSubmit,
     formState: { isSubmitting },
+    reset,
   } = formMethods;
 
   const [fakeResponse, fakeRequest] = useFakeRequest({ success: 0.9 });
+  const dispatch = useDispatch();
 
   const editMenuHandler = () => {
-    handleSubmit(async () => {
+    handleSubmit(async (data) => {
       const response = await fakeRequest();
 
       if (response === "success") {
         succesfullSnackbar("The menu was edited successfully.");
+        dispatch(updateMenu({ id: props.data.id!, name: data.name! }));
         closeModal();
+        // reset();
       } else {
         errorSnackbar("There is a problem. Try it again.");
       }

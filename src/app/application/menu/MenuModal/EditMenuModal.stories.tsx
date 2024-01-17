@@ -1,24 +1,28 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj, Decorator } from "@storybook/react";
 import EditMenuModal from "./EditMenuModal";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
+import { Button } from "@/components";
+import { Toggle } from "@/helpers/decorators";
 
 const meta: Meta<typeof EditMenuModal> = {
   title: "Pages/Menu/Edit Menu Modal",
   component: EditMenuModal,
-  parameters: {
-    layout: "fullscreen",
+  args: {
+    data: {
+      name: "The Daily Menu",
+    },
   },
+  decorators: [Toggle],
 };
 
 export default meta;
 
 type Story = StoryObj<typeof EditMenuModal>;
 
-const DefaultStory = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
-  return <EditMenuModal open={modalIsOpen} setOpen={setModalIsOpen} />;
-};
-
 export const Default: Story = {
-  render: () => <DefaultStory />,
+  render: (args, context) => {
+    return (
+      <EditMenuModal {...args} open={context.open} setOpen={context.setOpen} />
+    );
+  },
 };
