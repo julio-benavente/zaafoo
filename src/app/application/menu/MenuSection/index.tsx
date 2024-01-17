@@ -44,7 +44,7 @@ const MenuSection = () => {
       {menus.length > 0 && (
         <div className="grid grid-cols-1 w-full">
           {menus.map((menu) => {
-            return <MenuRow menu={menu} />;
+            return <MenuRow key={menu.id} menu={menu} />;
           })}
         </div>
       )}
